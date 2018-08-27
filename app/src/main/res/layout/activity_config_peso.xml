@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ConfigPeso"
+    android:background="@drawable/my_gradient_drawable">
+
+
+    <Button
+        android:id="@+id/btnIngresar"
+        style="@android:style/Widget.Material.Light.Button.Inset"
+        android:layout_width="263dp"
+        android:layout_height="51dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="93dp"
+        android:text="@string/textBtnIngresar"
+        tools:layout_editor_absoluteX="61dp"
+        tools:layout_editor_absoluteY="422dp" />
+
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="259dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/btnIngresar"
+        android:layout_marginBottom="165dp"
+        android:ems="10"
+        android:inputType="numberSigned"
+        android:lineSpacingExtra="10sp"
+        android:textAlignment="textEnd"
+        android:textColor="#808080"
+        android:textColorLink="#808080"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        tools:text="KG" />
+
+</RelativeLayout>
