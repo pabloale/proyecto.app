@@ -4,14 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:context=".LoginActivity"
+    tools:showIn="@layout/activity_login">
 
     <ImageView
         android:id="@+id/imglogo"
         android:layout_width="304dp"
         android:layout_height="279dp"
-        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="92dp"
         android:background="@drawable/grafico2"
         android:contentDescription="@string/logo"
         tools:ignore="MissingConstraints"

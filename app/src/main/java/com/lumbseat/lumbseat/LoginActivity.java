@@ -1,16 +1,13 @@
 package com.lumbseat.lumbseat;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
-import android.widget.TextView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
+
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -20,7 +17,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private SignInButton signInButton;
     private GoogleSignInClient mGoogleSignInClient;
@@ -29,15 +26,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
         signInButton = findViewById(R.id.sign_in_button);
-       /* signInButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ConfigPeso.class);
-                startActivity(intent);
-            }
-        });*/
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -59,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.sign_in_button:
                 signIn();
                 break;
+            /*case R.id.button_sign_out:
+                signOut();
+                break;*/
         }
     }
 
@@ -94,6 +88,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void updateUI(GoogleSignInAccount account) {
+        String personName;
+        if (account != null) {
+            personName = account.getDisplayName();
+            /*String personGivenName = account.getGivenName();
+            String personFamilyName = account.getFamilyName();
+            String personEmail = account.getEmail();
+            String personId = account.getId();*/
+            //Uri personPhoto = account.getPhotoUrl();
+
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent = new Intent(LoginActivity.this, SignedInActivity.class);
+                    intent.putExtra("PERSON_NAME", personName);
+                    //intent.putExtra("PERSON_PHOTO", personPhoto);
+                    startActivity(intent);
+                }
+            },5000);
+        }
     }
 
 }
