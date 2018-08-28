@@ -20,8 +20,9 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private SignInButton signInButton;
     private GoogleSignInClient mGoogleSignInClient;
     static final int RC_SIGN_IN = 1;
 
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SignInButton signInButton = findViewById(R.id.sign_in_button);
+        signInButton = findViewById(R.id.sign_in_button);
        /* signInButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ConfigPeso.class);
@@ -38,18 +39,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });*/
 
-        //GOOGLE BUTTON
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
-
-        // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        // Set the dimensions of the sign-in button.
-        signInButton.setOnClickListener((View.OnClickListener) this);
+        signInButton.setOnClickListener(this);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        updateUI(account);
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sign_in_button:
