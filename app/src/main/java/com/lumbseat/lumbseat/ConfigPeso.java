@@ -17,7 +17,7 @@ public class ConfigPeso extends Activity {
         btnIngresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ConfigPeso.this, SignedInActivity.class);
+                Intent intent = new Intent(ConfigPeso.this, MainActivity.class);
                 startActivity(intent);
             }
         });

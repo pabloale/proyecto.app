@@ -22,7 +22,18 @@
         <activity
             android:name=".ConfigPeso"
             android:label="@string/title_activity_config_peso" />
-        <activity android:name=".SignedInActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main" />
+        <activity
+            android:name=".ExercisesActivity"
+            android:label="@string/title_activity_exercises" />
+        <activity
+            android:name=".ConfigurationActivity"
+            android:label="@string/title_activity_configuration" />
+        <activity
+            android:name=".BackupActivity"
+            android:label="@string/title_activity_backup"></activity>
     </application>
 
 </manifest>

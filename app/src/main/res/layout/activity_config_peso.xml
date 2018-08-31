@@ -5,49 +5,74 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ConfigPeso"
-    android:background="@drawable/my_gradient_drawable">
+    android:background="@drawable/fondo_degrade">
 
-    <EditText
-        android:id="@+id/editText1"
-        android:layout_width="319dp"
-        android:layout_height="270dp"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="256dp"
+        android:layout_height="199dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="98dp"
         android:ems="10"
         android:inputType="textMultiLine"
-        android:text="Para que tu LumbSeat pueda analizar correctamente tus datos, ingresa tu peso a continuación "
+        android:text="Para que tu LumbSeat pueda analizar correctamente tus datos, ingresá tu peso a continuación "
+        android:textAlignment="center"
         android:textColor="#808080"
         android:textSize="25dp"
-        android:textAlignment="center"/>
+        android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/editText2"
-        android:layout_width="259dp"
+        android:id="@+id/editText"
+        android:layout_width="78dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/btnIngresar"
-        android:layout_marginBottom="165dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="154dp"
+        android:backgroundTint="#808080"
         android:ems="10"
-        android:inputType="numberSigned"
-        android:lineSpacingExtra="10sp"
-        android:textAlignment="textEnd"
+        android:hint="-"
+        android:inputType="number"
+        android:maxLength="3"
+        android:textAlignment="center"
         android:textColor="#808080"
-        android:textColorLink="#808080"
-        android:textSize="40dp"
-        android:textStyle="bold"
-        tools:text="KG" />
+        android:textColorHint="#808080"
+        android:textCursorDrawable="@null"
+        android:textSize="40dp" />
 
     <Button
         android:id="@+id/btnIngresar"
-        style="@android:style/Widget.Material.Light.Button.Inset"
-        android:layout_width="263dp"
-        android:layout_height="51dp"
+        android:layout_width="242dp"
+        android:layout_height="63dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="93dp"
+        android:layout_marginBottom="46dp"
+        android:background="@android:drawable/alert_dark_frame"
+        android:backgroundTint="#7CF9FA"
         android:text="@string/textBtnIngresar"
         tools:layout_editor_absoluteX="61dp"
         tools:layout_editor_absoluteY="422dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/editText"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="91dp"
+        android:text="KG"
+        android:textColor="#808080"
+        android:textSize="40dp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="336dp"
+        android:layout_height="277dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="53dp"
+        android:background="@drawable/dialogo" />
+
 
 </RelativeLayout>

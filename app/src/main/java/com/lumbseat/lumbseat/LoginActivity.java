@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -50,9 +52,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.sign_in_button:
                 signIn();
                 break;
-            /*case R.id.button_sign_out:
-                signOut();
-                break;*/
         }
     }
 
@@ -76,7 +75,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-
             // Signed in successfully, show authenticated UI.
             updateUI(account);
         } catch (ApiException e) {
@@ -88,25 +86,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void updateUI(GoogleSignInAccount account) {
-        String personName;
         if (account != null) {
-            personName = account.getDisplayName();
-            /*String personGivenName = account.getGivenName();
+            /*String personName = account.getDisplayName();
+            String personGivenName = account.getGivenName();
             String personFamilyName = account.getFamilyName();
             String personEmail = account.getEmail();
-            String personId = account.getId();*/
-            //Uri personPhoto = account.getPhotoUrl();
+            String personId = account.getId();
+            Uri personPhoto = account.getPhotoUrl();*/
 
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent intent = new Intent(LoginActivity.this, SignedInActivity.class);
-                    intent.putExtra("PERSON_NAME", personName);
-                    //intent.putExtra("PERSON_PHOTO", personPhoto);
-                    startActivity(intent);
-                }
-            },5000);
+            Intent intent = new Intent(LoginActivity.this, ConfigPeso.class);
+            intent.putExtra("ACCOUNT_OBJECT", account);
+            startActivity(intent);
         }
     }
 
