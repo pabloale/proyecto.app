@@ -1,8 +1,6 @@
 package com.lumbseat.lumbseat;
 
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -12,8 +10,6 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mTextMessage;
-
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -22,20 +18,16 @@ public class MainActivity extends AppCompatActivity {
             Intent intent;
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
                     return true;
                 case R.id.navigation_configuration:
-                    mTextMessage.setText(R.string.title_configuracion);
                     intent = new Intent(MainActivity.this, ConfigurationActivity.class);
                     startActivity(intent);
                     return true;
                 case R.id.navigation_exercises:
-                    mTextMessage.setText(R.string.title_ejercicios);
                     intent = new Intent(MainActivity.this, ExercisesActivity.class);
                     startActivity(intent);
                     return true;
                 case R.id.navigation_backup:
-                    mTextMessage.setText(R.string.title_respaldo);
                     intent = new Intent(MainActivity.this, BackupActivity.class);
                     startActivity(intent);
                     return true;

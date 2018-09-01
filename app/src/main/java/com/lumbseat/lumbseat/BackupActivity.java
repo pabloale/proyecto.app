@@ -10,8 +10,6 @@ import android.widget.TextView;
 
 public class BackupActivity extends AppCompatActivity {
 
-    private TextView mTextMessage;
-
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -20,22 +18,18 @@ public class BackupActivity extends AppCompatActivity {
             Intent intent;
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
                     intent = new Intent(BackupActivity.this, ConfigurationActivity.class);
                     startActivity(intent);
                     return true;
                 case R.id.navigation_configuration:
-                    mTextMessage.setText(R.string.title_configuracion);
                     intent = new Intent(BackupActivity.this, ConfigurationActivity.class);
                     startActivity(intent);
                     return true;
                 case R.id.navigation_exercises:
-                    mTextMessage.setText(R.string.title_ejercicios);
                     intent = new Intent(BackupActivity.this, ExercisesActivity.class);
                     startActivity(intent);
                     return true;
                 case R.id.navigation_backup:
-                    mTextMessage.setText(R.string.title_respaldo);
                     return true;
             }
             return false;
@@ -49,6 +43,8 @@ public class BackupActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        navigation.setSelectedItemId(R.id.navigation_backup);
+
     }
 
 }

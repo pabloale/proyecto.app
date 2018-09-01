@@ -33,7 +33,12 @@
             android:label="@string/title_activity_configuration" />
         <activity
             android:name=".BackupActivity"
-            android:label="@string/title_activity_backup"></activity>
+            android:label="@string/title_activity_backup" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
     </application>
 
 </manifest>

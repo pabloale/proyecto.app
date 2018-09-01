@@ -14,5 +14,8 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_configuration">ConfigurationActivity</string>
     <string name="title_activity_backup">BackupActivity</string>
+    <string name="title_activity_asd">asd</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 
 </resources>

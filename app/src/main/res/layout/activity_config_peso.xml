@@ -7,6 +7,15 @@
     tools:context=".ConfigPeso"
     android:background="@drawable/fondo_degrade">
 
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="336dp"
+        android:layout_height="277dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="53dp"
+        android:background="@drawable/dialogo" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="256dp"
@@ -40,19 +49,6 @@
         android:textCursorDrawable="@null"
         android:textSize="40dp" />
 
-    <Button
-        android:id="@+id/btnIngresar"
-        android:layout_width="242dp"
-        android:layout_height="63dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="46dp"
-        android:background="@android:drawable/alert_dark_frame"
-        android:backgroundTint="#7CF9FA"
-        android:text="@string/textBtnIngresar"
-        tools:layout_editor_absoluteX="61dp"
-        tools:layout_editor_absoluteY="422dp" />
-
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
@@ -65,14 +61,17 @@
         android:textSize="40dp"
         android:textStyle="bold" />
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="336dp"
-        android:layout_height="277dp"
-        android:layout_alignParentTop="true"
+    <Button
+        android:id="@+id/btnIngresar"
+        android:layout_width="242dp"
+        android:layout_height="63dp"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="53dp"
-        android:background="@drawable/dialogo" />
-
+        android:layout_marginBottom="46dp"
+        android:background="@android:drawable/alert_dark_frame"
+        android:backgroundTint="#7CF9FA"
+        android:text="@string/textBtnIngresar"
+        tools:layout_editor_absoluteX="61dp"
+        tools:layout_editor_absoluteY="422dp" />
 
 </RelativeLayout>
