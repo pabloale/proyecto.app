@@ -8,6 +8,86 @@
     tools:context=".BackupActivity"
     android:background="@drawable/fondo_degrade_naranja">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="54dp"
+            android:layout_alignBottom="@+id/tvTitulo"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="-1dp"
+            android:layout_marginStart="62dp"
+            android:src="@drawable/respaldo_logo_naranja" />
+
+        <TextView
+            android:id="@+id/tvTitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="55dp"
+            android:layout_marginTop="44dp"
+            android:text="Respaldo"
+            android:textColor="#AE5519"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="301dp"
+            android:layout_height="108dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="127dp"
+            android:text="Podrás realizar un respaldo o restaurarlo, para no perder tus estadísticas y tener un mejor seguimiento de tu postura."
+            android:textColor="#7D3704"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/btnBackup"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="205dp"
+            android:layout_marginEnd="19dp"
+            android:background="@android:drawable/alert_dark_frame"
+            android:backgroundTint="#F7A268"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Realizar Respaldo"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnRestore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/btnBackup"
+            android:layout_marginBottom="144dp"
+            android:background="@android:drawable/alert_dark_frame"
+            android:backgroundTint="#F7A268"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Restaurar Respaldo"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="99dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Último respaldo realizado el día:"
+            android:textColor="#7D3704" />
+
+    </RelativeLayout>
+
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="0dp"
