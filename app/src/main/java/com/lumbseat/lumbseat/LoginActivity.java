@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -87,12 +88,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void updateUI(GoogleSignInAccount account) {
         if (account != null) {
-            /*String personName = account.getDisplayName();
-            String personGivenName = account.getGivenName();
+            String personName = account.getDisplayName();
+            /*String personGivenName = account.getGivenName();
             String personFamilyName = account.getFamilyName();
             String personEmail = account.getEmail();
             String personId = account.getId();
             Uri personPhoto = account.getPhotoUrl();*/
+
+            Toast.makeText(getApplicationContext(),personName + " Logged In",Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(LoginActivity.this, ConfigPeso.class);
             intent.putExtra("ACCOUNT_OBJECT", account);
