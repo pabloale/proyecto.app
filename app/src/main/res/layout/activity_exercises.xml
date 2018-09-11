@@ -10,7 +10,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <ImageView
             android:id="@+id/imageView2"
@@ -42,12 +44,21 @@
             android:layout_height="106dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="162dp"
+            android:layout_marginTop="117dp"
             android:text="Ejercicios de stretching para mejorar tu postura corporal y evitar la fatiga de los músculos"
             android:textColor="#45774F"
             android:textSize="20sp"
             tools:layout_editor_absoluteX="47dp"
             tools:layout_editor_absoluteY="148dp" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="294dp"
+            android:layout_height="232dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="101dp"
+            app:srcCompat="@drawable/streching" />
     </RelativeLayout>
 
     <android.support.design.widget.BottomNavigationView

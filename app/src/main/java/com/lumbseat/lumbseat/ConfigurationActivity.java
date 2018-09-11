@@ -1,13 +1,18 @@
 package com.lumbseat.lumbseat;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,14 +55,23 @@ public class ConfigurationActivity extends AppCompatActivity {
     private GoogleApiClient mGoogleApiClient;
     private Button btnSignOut;
 
+    int peso = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuration);
+        setTitle("LumbSeat");
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_configuration);
+
+        SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        peso = myPreferences.getInt("PESO", 0);
+
+        EditText etPeso = (EditText)findViewById(R.id.et1);
+        etPeso.setText(""+peso);
     }
 
     @Override
@@ -86,6 +100,23 @@ public class ConfigurationActivity extends AppCompatActivity {
                     }
                 });
             }
+        });
+
+        EditText etPeso = (EditText)findViewById(R.id.et1);
+        etPeso.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+                String valorPeso = s.toString();
+                if(!valorPeso.isEmpty()){
+                    peso = Integer.parseInt(valorPeso);
+                }
+                SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(ConfigurationActivity.this);
+                SharedPreferences.Editor myEditor = myPreferences.edit();
+                myEditor.putInt("PESO",peso);
+                myEditor.commit();
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
     }
 

@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ConfigPeso"
+            android:name=".ConfigPesoActivity"
             android:label="@string/title_activity_config_peso" />
         <activity
             android:name=".MainActivity"

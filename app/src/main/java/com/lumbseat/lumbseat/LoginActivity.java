@@ -1,10 +1,7 @@
 package com.lumbseat.lumbseat;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -17,7 +14,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -97,7 +93,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             Toast.makeText(getApplicationContext(),personName + " Logged In",Toast.LENGTH_SHORT).show();
 
-            Intent intent = new Intent(LoginActivity.this, ConfigPeso.class);
+            Intent intent = new Intent(LoginActivity.this, ConfigPesoActivity.class);
             intent.putExtra("ACCOUNT_OBJECT", account);
             startActivity(intent);
         }

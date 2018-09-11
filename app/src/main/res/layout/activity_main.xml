@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@drawable/fondo_degrade">
+    android:background="@drawable/fondo_degrade"
+    android:theme="@style/Base.Theme.AppCompat.Light.DarkActionBar">
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
