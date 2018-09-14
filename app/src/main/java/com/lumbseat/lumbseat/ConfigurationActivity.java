@@ -12,7 +12,9 @@ import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +58,8 @@ public class ConfigurationActivity extends AppCompatActivity {
     private Button btnSignOut;
 
     int peso = 0;
+    boolean boolLed;
+    boolean boolVibrador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +72,18 @@ public class ConfigurationActivity extends AppCompatActivity {
         navigation.setSelectedItemId(R.id.navigation_configuration);
 
         SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        peso = myPreferences.getInt("PESO", 0);
 
+        peso = myPreferences.getInt("PESO", 0);
         EditText etPeso = (EditText)findViewById(R.id.et1);
         etPeso.setText(""+peso);
+
+        boolLed = myPreferences.getBoolean("LEDS", true);
+        Switch switchLeds = (Switch)findViewById(R.id.switchLeds);
+        switchLeds.setChecked(boolLed);
+
+        boolVibrador = myPreferences.getBoolean("VIBRADOR", true);
+        Switch switchVibrador = (Switch)findViewById(R.id.switchVibrador);
+        switchVibrador.setChecked(boolVibrador);
     }
 
     @Override
@@ -85,6 +97,25 @@ public class ConfigurationActivity extends AppCompatActivity {
         mGoogleApiClient.connect();
         super.onStart();
 
+        Switch switchLeds = (Switch)findViewById(R.id.switchLeds);
+        switchLeds.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(ConfigurationActivity.this);
+                SharedPreferences.Editor myEditor = myPreferences.edit();
+                myEditor.putBoolean("LEDS",isChecked);
+                myEditor.commit();
+            }
+        });
+
+        Switch switchVibrador = (Switch)findViewById(R.id.switchVibrador);
+        switchVibrador.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(ConfigurationActivity.this);
+                SharedPreferences.Editor myEditor = myPreferences.edit();
+                myEditor.putBoolean("VIBRADOR",isChecked);
+                myEditor.commit();
+            }
+        });
 
         btnSignOut = findViewById(R.id.sign_out_button);
         btnSignOut.setOnClickListener(new View.OnClickListener() {
@@ -104,7 +135,6 @@ public class ConfigurationActivity extends AppCompatActivity {
 
         EditText etPeso = (EditText)findViewById(R.id.et1);
         etPeso.addTextChangedListener(new TextWatcher() {
-
             public void afterTextChanged(Editable s) {
                 String valorPeso = s.toString();
                 if(!valorPeso.isEmpty()){

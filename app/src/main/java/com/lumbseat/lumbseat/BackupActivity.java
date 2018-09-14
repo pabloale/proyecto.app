@@ -18,7 +18,7 @@ public class BackupActivity extends AppCompatActivity {
             Intent intent;
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    intent = new Intent(BackupActivity.this, ConfigurationActivity.class);
+                    intent = new Intent(BackupActivity.this, MainActivity.class);
                     startActivity(intent);
                     return true;
                 case R.id.navigation_configuration:

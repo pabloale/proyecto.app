@@ -83,7 +83,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="99dp"
             android:fontFamily="@font/roboto_bold"
-            android:text="Último respaldo realizado el día:"
+            android:text="Último respaldo realizado el día: 15/09/2018"
             android:textColor="#7D3704" />
 
     </RelativeLayout>
