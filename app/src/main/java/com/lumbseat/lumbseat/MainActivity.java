@@ -6,9 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.TextView;
+
+import com.lumbseat.lumbseat.dataBase.SQLiteConnectionHelper;
 
 public class MainActivity extends AppCompatActivity {
 
