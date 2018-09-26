@@ -18,7 +18,7 @@ public class Utilities {
 
     public static final String CREAR_TABLA_DATOS = "CREATE TABLE " + TABLA_DATOS +
             " ( " + CAMPO_ID + " INTEGER, " +
-            CAMPO_TIMESTAMP + "DATETIME, " +
+            CAMPO_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP, " +
             CAMPO_SENS_RESISTIVO_ATRAS_IZQ + " float(8,4), " +
             CAMPO_SENS_RESISTIVO_ATRAS_DER + " float(8,4), " +
             CAMPO_SENS_RESISTIVO_ADEL_IZQ + " float(8,4), " +

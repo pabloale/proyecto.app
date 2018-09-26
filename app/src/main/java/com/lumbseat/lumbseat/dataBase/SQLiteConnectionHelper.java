@@ -10,6 +10,10 @@ public class SQLiteConnectionHelper extends SQLiteOpenHelper {
         super(context, name, factory, version);
     }
 
+    public SQLiteConnectionHelper(Context context) {
+        super(context, "/data/data/com.lumbseat.lumbseat/databases/bd_datos.db", null, 0);
+    }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         //Este método crea por primera vez las tablas

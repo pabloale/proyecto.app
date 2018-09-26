@@ -41,23 +41,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         signInButton.setOnClickListener(this);
-
-        SQLiteConnectionHelper conn = new SQLiteConnectionHelper(this, Utilities.BASE_DATOS, null, 1);
-        SQLiteDatabase db = conn.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(Utilities.CAMPO_ID, 1);
-        values.put(Utilities.CAMPO_TIMESTAMP, Calendar.getInstance().getTime().toString());
-        values.put(Utilities.CAMPO_SENS_RESISTIVO_ATRAS_DER, 3.50 );
-        values.put(Utilities.CAMPO_SENS_RESISTIVO_ATRAS_IZQ, 3.50);
-        values.put(Utilities.CAMPO_SENS_RESISTIVO_ADEL_DER, 3.41);
-        values.put(Utilities.CAMPO_SENS_RESISTIVO_ADEL_IZQ, 3.43);
-        values.put(Utilities.CAMPO_SENS_DIST_LUMBAR, 1);
-        values.put(Utilities.CAMPO_SENS_DIST_CERVICAL, 1);
-        values.put(Utilities.CAMPO_BIEN_SENTADO, 1);
-
-        db.insert(Utilities.TABLA_DATOS, Utilities.CAMPO_ID, values);
-        db.close();
     }
 
     @Override
@@ -69,15 +52,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        /*switch (v.getId()) {
+        switch (v.getId()) {
             case R.id.sign_in_button:
                 signIn();
                 break;
-        }*/
+        }
 
         //descomentar arriba y borrar esto de abajo
-        Intent intent = new Intent(LoginActivity.this, ConfigPesoActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(LoginActivity.this, ConfigPesoActivity.class);
+        //startActivity(intent);
     }
 
     private void signIn() {
