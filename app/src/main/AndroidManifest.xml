@@ -39,6 +39,9 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
+        <activity
+            android:name=".HistoricosActivity"
+            android:label="@string/title_activity_historicos"></activity>
     </application>
 
 </manifest>
