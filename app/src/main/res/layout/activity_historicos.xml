@@ -10,9 +10,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
 
         <android.support.design.widget.FloatingActionButton
@@ -21,11 +21,67 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="31dp"
-            android:layout_marginTop="23dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="17dp"
             android:clickable="true"
             android:src="@drawable/ic_home_black_24dp"
-            app:backgroundTint="#6DFD9C" />
+            app:backgroundTint="#40858c" />
+
+        <Button
+            android:id="@+id/btnDesde"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/btnHasta"
+            android:layout_marginTop="41dp"
+            android:text="@string/bDesde" />
+
+        <Button
+            android:id="@+id/btnHasta"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="127dp"
+            android:layout_marginTop="99dp"
+            android:text="@string/bHasta" />
+
+        <EditText
+            android:id="@+id/editTextDesde"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/btnDesde"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="40dp"
+            android:ems="10"
+            android:inputType="date"/>
+
+
+        <EditText
+            android:id="@+id/editTextHasta"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/btnHasta"
+            android:layout_alignStart="@+id/editTextDesde"
+            android:ems="10"
+            android:inputType="date"/>
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/piechartHistorico"
+            android:layout_width="322dp"
+            android:layout_height="265dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="54dp" />
+
+        <Button
+            android:id="@+id/btnVer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/editTextDesde"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="158dp"
+            android:text="VER" />
 
     </RelativeLayout>
 

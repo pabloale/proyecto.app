@@ -180,7 +180,7 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
         data.setValueTextColor(Color.DKGRAY);
         pieChart.setOnChartValueSelectedListener(this);
 
-        pieChart.animateXY(1400, 1400);
+        pieChart.animateXY(2000, 2000);
 
     }
 

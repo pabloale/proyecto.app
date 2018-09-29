@@ -10,32 +10,29 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="58dp"
-            android:layout_height="56dp"
-            android:layout_alignStart="@+id/tvTexto"
+            android:layout_width="64dp"
+            android:layout_height="54dp"
             android:layout_alignTop="@+id/tvTitulo"
-            app:srcCompat="@drawable/configuracion"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="42dp" />
+            android:layout_toStartOf="@+id/sign_out_button"
+            android:src="@drawable/configuracion" />
 
         <TextView
             android:id="@+id/tvTitulo"
             android:layout_width="wrap_content"
-            android:layout_height="67dp"
-            android:layout_above="@+id/tvTexto"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginBottom="-109dp"
-            android:layout_marginEnd="21dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="26dp"
+            android:layout_marginTop="44dp"
             android:text="Configuración"
             android:textColor="#833232"
             android:textSize="40sp"
-            android:textStyle="bold"
-            tools:layout_editor_absoluteX="106dp"
-            tools:layout_editor_absoluteY="42dp" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvTexto"
@@ -55,10 +52,9 @@
             android:id="@+id/et1"
             android:layout_width="49dp"
             android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/sign_out_button"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="153dp"
-            android:layout_marginEnd="133dp"
+            android:layout_marginBottom="170dp"
             android:backgroundTint="#FC9899"
             android:ems="5"
             android:fontFamily="@font/roboto_bold"
@@ -78,7 +74,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="94dp"
-            android:background="@android:drawable/alert_dark_frame"
+            android:background="#FC9899"
             android:backgroundTint="#FD999A"
             android:text="Sign Out" />
 
@@ -86,8 +82,10 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/sign_out_button"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/imageView"
+            android:layout_marginBottom="280dp"
             android:text="Leds"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
@@ -97,8 +95,9 @@
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/et1"
-            android:layout_toEndOf="@+id/imageView"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/textView4"
+            android:layout_marginBottom="230dp"
             android:text="Vibración"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
@@ -108,8 +107,9 @@
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/et1"
-            android:layout_toEndOf="@+id/imageView"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/textView4"
+            android:layout_marginBottom="180dp"
             android:text="Peso"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
@@ -117,14 +117,14 @@
 
         <Switch
             android:id="@+id/switchLeds"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/et1"
+            android:layout_alignStart="@+id/et1"
             android:layout_alignTop="@+id/textView4" />
 
         <Switch
             android:id="@+id/switchVibrador"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/et1"
             android:layout_alignTop="@+id/textView5" />

@@ -13,20 +13,21 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="92dp"
-            android:layout_height="61dp"
-            android:layout_alignTop="@+id/textView9"
-            android:layout_toStartOf="@+id/textView9"
-            app:srcCompat="@drawable/hombrecito_verde" />
+            android:layout_width="64dp"
+            android:layout_height="54dp"
+            android:layout_alignBottom="@+id/tvTitulo"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="-1dp"
+            android:layout_marginStart="62dp"
+            android:src="@drawable/hombrecito_verde" />
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/tvTitulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:layout_marginEnd="71dp"
+            android:layout_marginEnd="55dp"
             android:layout_marginTop="44dp"
             android:text="Ejercicios"
             android:textColor="#45774F"
@@ -47,13 +48,15 @@
             tools:layout_editor_absoluteY="148dp" />
 
         <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="294dp"
-            android:layout_height="232dp"
+            android:id="@+id/imageView"
+            android:layout_width="283dp"
+            android:layout_height="316dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="94dp"
-            app:srcCompat="@drawable/streching" />
+            android:layout_marginBottom="75dp"
+            android:src="@drawable/streching" />
+
+
     </RelativeLayout>
 
     <android.support.design.widget.BottomNavigationView
