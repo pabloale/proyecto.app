@@ -26,7 +26,7 @@
         android:layout_marginTop="98dp"
         android:ems="10"
         android:inputType="textMultiLine"
-        android:text="Para que tu LumbSeat pueda analizar correctamente tus datos, ingresá tu peso a continuación "
+        android:text="Para que tu LumbSeat pueda analizar correctamente tu postura, ingresá tu peso a continuación "
         android:textAlignment="center"
         android:textColor="#808080"
         android:textSize="25dp"
@@ -69,8 +69,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="46dp"
-        android:background="@android:drawable/alert_dark_frame"
-        android:backgroundTint="#7CF9FA"
+        android:backgroundTint="#40858c"
         android:text="@string/textBtnIngresar"
         tools:layout_editor_absoluteX="61dp"
         tools:layout_editor_absoluteY="422dp" />

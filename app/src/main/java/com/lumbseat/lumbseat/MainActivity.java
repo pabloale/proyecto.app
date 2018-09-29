@@ -23,6 +23,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.lumbseat.lumbseat.dataBase.SQLiteConnectionHelper;
+import com.lumbseat.lumbseat.graphics.GraphicHelper;
 import com.lumbseat.lumbseat.utilities.Utilities;
 
 import android.graphics.Color;
@@ -109,78 +110,15 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
         String path = db2.getPath().toString();
         Toast.makeText(getApplicationContext(),"El path de la base es: "+ path,Toast.LENGTH_SHORT).show();
 
-
-        //Graficos
         //GRAFICO DE BARRAS
-
         BarChart barChart = (BarChart) findViewById(R.id.barchart);
-
-        ArrayList<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(8f, 0));
-        entries.add(new BarEntry(2f, 1));
-        entries.add(new BarEntry(5f, 2));
-        entries.add(new BarEntry(2f, 3));
-        entries.add(new BarEntry(7f, 4));
-        entries.add(new BarEntry(5f, 5));
-        entries.add(new BarEntry(10f, 6));
-
-        BarDataSet bardataset = new BarDataSet(entries, "HORAS BIEN SENTADO");
-
-        ArrayList<String> labels = new ArrayList<String>();
-        labels.add("Do");
-        labels.add("Lu");
-        labels.add("Ma");
-        labels.add("Mi");
-        labels.add("Ju");
-        labels.add("Vi");
-        labels.add("Sa");
-
-        BarData dataBar = new BarData(labels, bardataset);
-        barChart.setData(dataBar); // set the data and list of labels into chart
-
-        barChart.setDescription("Postura corporal semanal");  // set the description
-        bardataset.setColors(ColorTemplate.JOYFUL_COLORS);
-
-        barChart.animateY(2000);
+        barChart = GraphicHelper.configurateBarChart(barChart);
 
         //GRAFICO DE TORTA
         PieChart pieChart = (PieChart) findViewById(R.id.piechart);
-        pieChart.setUsePercentValues(true);
-
-        // IMPORTANT: In a PieChart, no values (Entry) should have the same
-        // xIndex (even if from different DataSets), since no values can be
-        // drawn above each other.
-        ArrayList<Entry> yvalues = new ArrayList<Entry>();
-        yvalues.add(new Entry(35f, 0));
-        yvalues.add(new Entry(75f, 1));
-
-        PieDataSet dataSet = new PieDataSet(yvalues, "");
-
-        ArrayList<String> xVals = new ArrayList<String>();
-
-        xVals.add("BIEN SENTADO");
-        xVals.add("MAL SENTADO");
+        pieChart = GraphicHelper.configuratePieChart(pieChart,this);
 
 
-        PieData data = new PieData(xVals, dataSet);
-        // In Percentage term
-        data.setValueFormatter(new PercentFormatter());
-        // Default value
-        //data.setValueFormatter(new DefaultValueFormatter(0));
-        pieChart.setData(data);
-        pieChart.setDescription("Postura corporal diaria");
-
-        pieChart.setDrawHoleEnabled(true);
-        pieChart.setTransparentCircleRadius(30f);
-        pieChart.setHoleColor(android.R.color.transparent);
-        pieChart.setHoleRadius(25f);
-
-        dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
-        data.setValueTextSize(13f);
-        data.setValueTextColor(Color.DKGRAY);
-        pieChart.setOnChartValueSelectedListener(this);
-
-        pieChart.animateXY(2000, 2000);
 
     }
 
