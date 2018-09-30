@@ -55,6 +55,7 @@ public class GraphicHelper {
     }
 
 
+
     public static PieChart configuratePieChart(PieChart originalPieChart, MainActivity mainActivity)
     {
         PieChart configuratedPieChart = originalPieChart;
@@ -65,34 +66,29 @@ public class GraphicHelper {
         yvalues.add(new Entry(35f, 0));
         yvalues.add(new Entry(75f, 1));
 
-        PieDataSet dataSet = new PieDataSet(yvalues, "");
-
         ArrayList<String> xVals = new ArrayList<String>();
         xVals.add("BIEN SENTADO");
         xVals.add("MAL SENTADO");
 
+        PieDataSet dataSet = new PieDataSet(yvalues, "");
+        final int[] ROJOVERDE = {Color.rgb(87, 193, 75), Color.rgb(209, 87, 87)};
+        dataSet.setColors(ROJOVERDE);
+
         PieData data = new PieData(xVals, dataSet);
         data.setValueFormatter(new PercentFormatter());
+        data.setValueTextSize(13f);
+        data.setValueTextColor(Color.WHITE);
 
         configuratedPieChart.setData(data);
+        configuratedPieChart.setDescription("Postura corporal diaria");
         configuratedPieChart.setHoleColor(android.R.color.transparent);
-        configuratedPieChart.setDescriptionPosition(50,-50);
         configuratedPieChart.setDrawHoleEnabled(true);
         configuratedPieChart.setTransparentCircleRadius(30f);
         configuratedPieChart.setHoleRadius(25f);
-
-        final int[] ROJOVERDE = {
-            Color.rgb(87, 193, 75), Color.rgb(209, 87, 87)
-        };
-
-        dataSet.setColors(ROJOVERDE);
-        data.setValueTextSize(13f);
-        data.setValueTextColor(Color.WHITE);
         configuratedPieChart.setOnChartValueSelectedListener(mainActivity);
         configuratedPieChart.setDrawSliceText(false);
-        configuratedPieChart.setDescriptionColor(Color.WHITE);
+        configuratedPieChart.setDescriptionColor(Color.BLACK);
         configuratedPieChart.animateXY(2000, 2000);
-        configuratedPieChart.setDescription("POSTURA CORPORAL DIARIA");
 
         return configuratedPieChart;
     }

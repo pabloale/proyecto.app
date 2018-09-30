@@ -17,6 +17,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.lumbseat.lumbseat.bluetooth.BluetoothConnection;
 import com.lumbseat.lumbseat.dataBase.SQLiteConnectionHelper;
 import com.lumbseat.lumbseat.utilities.Utilities;
 
@@ -59,7 +60,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }*/
 
         //descomentar arriba y borrar esto de abajo
-        Intent intent = new Intent(LoginActivity.this, ConfigPesoActivity.class);
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
     }
 
