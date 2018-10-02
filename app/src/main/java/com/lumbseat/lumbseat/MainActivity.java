@@ -1,7 +1,9 @@
 package com.lumbseat.lumbseat;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -14,6 +16,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -21,15 +24,17 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.lumbseat.lumbseat.bluetooth.ConnectThread;
 import com.lumbseat.lumbseat.dataBase.SQLiteConnectionHelper;
 import com.lumbseat.lumbseat.graphics.GraphicHelper;
 import com.lumbseat.lumbseat.bluetooth.BluetoothConnection;
 import com.lumbseat.lumbseat.utilities.Utilities;
 
+
 public class MainActivity extends Activity implements OnChartValueSelectedListener {
 
     final int REQUEST_ENABLE_BT = 1;
-    BluetoothAdapter mBluetoothAdapter;
+    public static BluetoothAdapter mBluetoothAdapter;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -123,12 +128,12 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
         try {
             super.onActivityResult(requestCode, resultCode, data);
             if (requestCode == REQUEST_ENABLE_BT  && resultCode  == RESULT_OK) {
-                BluetoothConnection btConn = new BluetoothConnection(MainActivity.this,mBluetoothAdapter);
+                ListView devicelist = (ListView)findViewById(R.id.listViewDispositivos);
+                BluetoothConnection btConn = new BluetoothConnection(MainActivity.this, devicelist);
             }
         } catch (Exception ex) {
             Toast.makeText(MainActivity.this, ex.toString(), Toast.LENGTH_SHORT).show();
         }
-
     }
 
     @Override
@@ -144,4 +149,6 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
     public void onNothingSelected() {
         Log.i("PieChart", "nothing selected");
     }
+
+
 }
