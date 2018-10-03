@@ -33,15 +33,11 @@ public class ConnectedThread {
 
         // Keep listening to the InputStream until an exception occurs
         while (true) {
-            try {
-                // Read from the InputStream
-                mmOutStream.write(5);
-                // Send the obtained bytes to the UI activity
-                //mHandler.obtainMessage(MESSAGE_READ, bytes, -1, buffer)
-                //        .sendToTarget();
-            } catch (IOException e) {
-                break;
-            }
+            write(buffer);
+
+            // Send the obtained bytes to the UI activity
+            //mHandler.obtainMessage(MESSAGE_READ, bytes, -1, buffer)
+            //        .sendToTarget();
         }
     }
 
@@ -49,6 +45,7 @@ public class ConnectedThread {
     public void write(byte[] bytes) {
         try {
             mmOutStream.write(bytes);
+            mmOutStream.flush();
         } catch (IOException e) { }
     }
 
