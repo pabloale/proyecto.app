@@ -131,6 +131,7 @@ public class BluetoothSerialService {
         // Start the thread to connect with the given device
         mConnectThread = new ConnectThread(device);
         mConnectThread.start();
+        mConnectThread.run();
         setState(STATE_CONNECTING);
     }
 
@@ -157,6 +158,7 @@ public class BluetoothSerialService {
         // Start the thread to manage the connection and perform transmissions
         mConnectedThread = new ConnectedThread(socket);
         mConnectedThread.start();
+        mConnectedThread.run();
 
         // Send the name of the connected device back to the UI Activity
         //Message msg = mHandler.obtainMessage(BlueTerm.MESSAGE_DEVICE_NAME);

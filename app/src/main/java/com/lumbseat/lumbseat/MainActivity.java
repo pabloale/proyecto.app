@@ -24,6 +24,7 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.lumbseat.lumbseat.bluetooth.BluetoothSerialService;
 import com.lumbseat.lumbseat.bluetooth.ConnectThread;
 import com.lumbseat.lumbseat.dataBase.SQLiteConnectionHelper;
 import com.lumbseat.lumbseat.graphics.GraphicHelper;
@@ -111,6 +112,7 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
 
 
         //BLUETOOTH
+
         mBluetoothAdapter  = BluetoothAdapter.getDefaultAdapter();
         String status = "";
         if (mBluetoothAdapter == null) {
@@ -130,6 +132,9 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
             if (requestCode == REQUEST_ENABLE_BT  && resultCode  == RESULT_OK) {
                 ListView devicelist = (ListView)findViewById(R.id.listViewDispositivos);
                 BluetoothConnection btConn = new BluetoothConnection(MainActivity.this, devicelist);
+
+
+
             }
         } catch (Exception ex) {
             Toast.makeText(MainActivity.this, ex.toString(), Toast.LENGTH_SHORT).show();

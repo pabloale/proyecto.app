@@ -2,6 +2,7 @@ package com.lumbseat.lumbseat.bluetooth;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -28,6 +29,7 @@ public class BluetoothConnection extends Activity {
     ArrayList<String> mArrayAdapter = new ArrayList<String>();
     Context contexto;
     ListView deviceList;
+    public BluetoothDevice mDevice;
 
     public BluetoothConnection(Context context, ListView devicelist) {
 
@@ -60,9 +62,13 @@ public class BluetoothConnection extends Activity {
             String info = ((TextView) v).getText().toString();
             String address = info.substring(info.length() - 17);
             showToastMethod(contexto,address);
-            BluetoothDevice device = MainActivity.mBluetoothAdapter.getRemoteDevice(address);
-            ConnectThread cThread = new ConnectThread(device);
-            cThread.start();
+            mDevice = MainActivity.mBluetoothAdapter.getRemoteDevice(address);
+
+            BluetoothSerialService bss = new BluetoothSerialService(contexto);
+            bss.start();
+            bss.connect(mDevice);
+            /*ConnectThread cThread = new ConnectThread(device);
+            cThread.start();*/
         }
     };
 

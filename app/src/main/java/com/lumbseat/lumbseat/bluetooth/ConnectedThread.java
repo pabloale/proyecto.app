@@ -30,6 +30,8 @@ public class ConnectedThread {
     public void run() {
         byte[] buffer = new byte[1024];  // buffer store for the stream
         int bytes; // bytes returned from read()
+        buffer[0] = 2;
+
 
         // Keep listening to the InputStream until an exception occurs
         while (true) {
