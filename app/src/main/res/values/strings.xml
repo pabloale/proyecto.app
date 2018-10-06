@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <resources>
     <string name="app_name">LumbSeat</string>
     <string name="action_settings">Configuración</string>
@@ -19,6 +21,30 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_historical">HistoricalActivity</string>
     <string name="title_activity_prueba">prueba</string>
+
+    <!--  Bluetooth -->
+    <string name="send">Send</string>
+    <string name="not_available">Bluetooth is not available</string>
+    <string name="not_connected">You are not connected to a device</string>
+    <string name="bt_not_enabled_leaving">Bluetooth was not enabled. Leaving Bluetooth.</string>
+    <string name="title_connecting">Connecting...</string>
+    <string name="title_connected_to">Connected to </string>
+    <string name="title_not_connected">Not connected</string>
+
+    <!--  DeviceListActivity -->
+    <string name="scanning">scanning for devices...</string>
+    <string name="select_device">select a device to connect</string>
+    <string name="none_paired">No devices have been paired</string>
+    <string name="none_found">No devices found</string>
+    <string name="title_paired_devices">Paired Devices</string>
+    <string name="title_other_devices">Other Available Devices</string>
+    <string name="button_scan">Scan for devices</string>
+
+    <!-- Options Menu -->
+    <string name="secure_connect">Connect a device - Secure</string>
+    <string name="insecure_connect">Connect a device - Insecure</string>
+    <string name="discoverable">Make discoverable</string>
+
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
