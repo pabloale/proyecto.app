@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,9 +31,11 @@ public class BluetoothConnection extends Activity {
     Context contexto;
     ListView deviceList;
     public BluetoothDevice mDevice;
+    Handler mHandler;
 
-    public BluetoothConnection(Context context, ListView devicelist) {
+    public BluetoothConnection(Context context, ListView devicelist, Handler handler) {
 
+        mHandler = handler;
         contexto = context;
         deviceList = devicelist;
 
@@ -64,11 +67,9 @@ public class BluetoothConnection extends Activity {
             showToastMethod(contexto,address);
             mDevice = MainActivity.mBluetoothAdapter.getRemoteDevice(address);
 
-            BluetoothSerialService bss = new BluetoothSerialService(contexto);
+            BluetoothSerialService bss = new BluetoothSerialService(contexto,mHandler);
             bss.start();
             bss.connect(mDevice);
-            /*ConnectThread cThread = new ConnectThread(device);
-            cThread.start();*/
         }
     };
 

@@ -21,6 +21,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.util.Log;
+import android.os.Handler;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,13 +39,14 @@ public class BluetoothSerialService {
     // Debugging
     private static final String TAG = "BluetoothReadService";
     private static final boolean D = true;
+    public static String señal = "Recibido";
 
 
 	private static final UUID SerialPortServiceClass_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     // Member fields
     private final BluetoothAdapter mAdapter;
-    //private final Handler mHandler;
+    private final Handler mHandler;
     private ConnectThread mConnectThread;
     private ConnectedThread mConnectedThread;
     private int mState;
@@ -65,10 +67,10 @@ public class BluetoothSerialService {
      * @param context  The UI Activity Context
      //* @param handler  A Handler to send messages back to the UI Activity
      */
-    public BluetoothSerialService(Context context) {
+    public BluetoothSerialService(Context context, Handler handler) {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         mState = STATE_NONE;
-        //mHandler = handler;
+        mHandler = handler;
         //mEmulatorView = emulatorView;
         mContext = context;
         mAllowInsecureConnections = true;
@@ -131,7 +133,7 @@ public class BluetoothSerialService {
         // Start the thread to connect with the given device
         mConnectThread = new ConnectThread(device);
         mConnectThread.start();
-        mConnectThread.run();
+        //mConnectThread.run();
         setState(STATE_CONNECTING);
     }
 
@@ -158,7 +160,7 @@ public class BluetoothSerialService {
         // Start the thread to manage the connection and perform transmissions
         mConnectedThread = new ConnectedThread(socket);
         mConnectedThread.start();
-        mConnectedThread.run();
+        //mConnectedThread.run();
 
         // Send the name of the connected device back to the UI Activity
         //Message msg = mHandler.obtainMessage(BlueTerm.MESSAGE_DEVICE_NAME);
@@ -340,17 +342,20 @@ public class BluetoothSerialService {
         public void run() {
             Log.i(TAG, "BEGIN mConnectedThread");
             byte[] buffer = new byte[1024];
+            byte[] buffer2 = new byte[1024];
             int bytes;
+            String asd = "OK";
+            buffer2 = asd.getBytes();
 
             // Keep listening to the InputStream while connected
             while (true) {
                 try {
                     // Read from the InputStream
                     bytes = mmInStream.read(buffer);
-
                     //mEmulatorView.write(buffer, bytes);
                     // Send the obtained bytes to the UI Activity
-                    //mHandler.obtainMessage(BlueTerm.MESSAGE_READ, bytes, -1, buffer).sendToTarget();
+                    mHandler.obtainMessage(2, bytes, -1, buffer).sendToTarget();
+                    write(buffer2);
                 } catch (IOException e) {
                     Log.e(TAG, "disconnected", e);
                     connectionLost();
@@ -366,7 +371,6 @@ public class BluetoothSerialService {
         public void write(byte[] buffer) {
             try {
                 mmOutStream.write(buffer);
-
                 // Share the sent message back to the UI Activity
                 /*mHandler.obtainMessage(BlueTerm.MESSAGE_WRITE, buffer.length, -1, buffer)
                         .sendToTarget();*/
