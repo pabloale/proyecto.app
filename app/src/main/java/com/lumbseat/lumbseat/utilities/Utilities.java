@@ -30,9 +30,9 @@ public class Utilities {
             CAMPO_SENS_RESISTIVO_ADEL_DER + " float(8,4), " +
             CAMPO_SENS_DIST_LUMBAR + " float(8,4), " +
             CAMPO_SENS_DIST_CERVICAL + " float(8,4), " +
-            CAMPO_BIEN_SENTADO + " bool" +
-            CAMPO_MAL_SENTADO_IZQ + " bool" +
-            CAMPO_MAL_SENTADO_DER + " bool" +
-            CAMPO_MAL_ABAJO_LEJOS + " bool" +
+            CAMPO_BIEN_SENTADO + " bool," +
+            CAMPO_MAL_SENTADO_IZQ + " bool," +
+            CAMPO_MAL_SENTADO_DER + " bool," +
+            CAMPO_MAL_ABAJO_LEJOS + " bool," +
             CAMPO_MAL_ARRIBA_LEJOS + " bool)";
 }

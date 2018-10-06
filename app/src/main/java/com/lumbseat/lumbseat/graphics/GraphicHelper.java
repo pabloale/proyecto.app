@@ -1,6 +1,7 @@
 package com.lumbseat.lumbseat.graphics;
 
 import android.app.Activity;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -19,35 +20,38 @@ import java.util.ArrayList;
 
 public class GraphicHelper {
 
-    public static BarChart configurateBarChart(BarChart originalBarchart)
+    public static BarChart configurateBarChart(BarChart originalBarchart, SQLiteDatabase db)
     {
+        BarChartDataHelper barChartDataHelper = new BarChartDataHelper(db);
         BarChart configuratedBarChart = originalBarchart;
 
-        ArrayList<BarEntry> entries = new ArrayList<>();
+        ArrayList<BarEntry> entries = barChartDataHelper.GetEntriesData(configuratedBarChart);
+
+        BarDataSet barDataSet = new BarDataSet(entries, "PORCENTAJE BIEN SENTADO");
+		/*
         entries.add(new BarEntry(8f, 0));
         entries.add(new BarEntry(2f, 1));
         entries.add(new BarEntry(5f, 2));
         entries.add(new BarEntry(2f, 3));
         entries.add(new BarEntry(7f, 4));
         entries.add(new BarEntry(5f, 5));
-        entries.add(new BarEntry(10f, 6));
+        entries.add(new BarEntry(10f, 6));*/
+        ArrayList<String> labels = barChartDataHelper.GetLabelsData(configuratedBarChart);
 
-        BarDataSet bardataset = new BarDataSet(entries, "HORAS BIEN SENTADO");
-
-        ArrayList<String> labels = new ArrayList<String>();
+        /*
         labels.add("Do");
         labels.add("Lu");
         labels.add("Ma");
         labels.add("Mi");
         labels.add("Ju");
         labels.add("Vi");
-        labels.add("Sa");
+        labels.add("Sa");*/
 
-        BarData dataBar = new BarData(labels, bardataset);
+        BarData dataBar = new BarData(labels, barDataSet);
         configuratedBarChart.setData(dataBar); // set the data and list of labels into chart
 
         configuratedBarChart.setDescription("Postura corporal semanal");  // set the description
-        bardataset.setColors(ColorTemplate.JOYFUL_COLORS);
+        barDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
 
         configuratedBarChart.animateY(2000);
 
@@ -56,8 +60,9 @@ public class GraphicHelper {
 
 
 
-    public static PieChart configuratePieChart(PieChart originalPieChart, MainActivity mainActivity)
+    public static PieChart configuratePieChart(PieChart originalPieChart, MainActivity mainActivity, SQLiteDatabase db)
     {
+        PieChartDataHelper PieChartGdh = new PieChartDataHelper(db);
         PieChart configuratedPieChart = originalPieChart;
 
         configuratedPieChart.setUsePercentValues(true);
