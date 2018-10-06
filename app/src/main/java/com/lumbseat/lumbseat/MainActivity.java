@@ -25,6 +25,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.lumbseat.lumbseat.bluetooth.BluetoothConnection;
+import com.lumbseat.lumbseat.bluetooth.BluetoothList;
 import com.lumbseat.lumbseat.dataBase.SQLiteConnectionHelper;
 import com.lumbseat.lumbseat.graphics.GraphicHelper;
 import com.lumbseat.lumbseat.utilities.Utilities;
@@ -34,12 +35,6 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
 
     final int REQUEST_ENABLE_BT = 1;
     public static BluetoothAdapter mBluetoothAdapter;
-
-
-    // Message types sent from the BluetoothReadService Handler
-    public static final int MESSAGE_READ = 2;
-    public static final int MESSAGE_WRITE = 3;
-
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -134,8 +129,8 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
         try {
             super.onActivityResult(requestCode, resultCode, data);
             if (requestCode == REQUEST_ENABLE_BT  && resultCode  == RESULT_OK) {
-                ListView devicelist = (ListView)findViewById(R.id.listViewDispositivos);
-                BluetoothConnection btConn = new BluetoothConnection(MainActivity.this, devicelist, mHandlerBT);
+                Intent i = new Intent(MainActivity.this, BluetoothList.class);
+                startActivity(i);
             }
         } catch (Exception ex) {
             Toast.makeText(MainActivity.this, ex.toString(), Toast.LENGTH_SHORT).show();
@@ -156,23 +151,6 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
         Log.i("PieChart", "nothing selected");
     }
 
-    // The Handler that gets information back from the BluetoothService
-    private final Handler mHandlerBT = new Handler() {
 
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MESSAGE_WRITE:
-                    byte[] writeBuf = (byte[]) msg.obj;
-                    Toast.makeText(MainActivity.this, writeBuf.toString(), Toast.LENGTH_SHORT).show();
-                    break;
-                case MESSAGE_READ:
-                    byte[] readBuf = (byte[]) msg.obj;
-                    String readMessage = new String(readBuf, 0, msg.arg1);
-                    Toast.makeText(MainActivity.this, readMessage, Toast.LENGTH_SHORT).show();
-                    break;
-            }
-        }
-    };
 
 }

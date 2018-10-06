@@ -16,12 +16,19 @@
 
 package com.lumbseat.lumbseat.bluetooth;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.support.v7.widget.ContentFrameLayout;
 import android.util.Log;
 import android.os.Handler;
+
+import com.lumbseat.lumbseat.ConfigurationActivity;
+import com.lumbseat.lumbseat.MainActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,7 +46,8 @@ public class BluetoothSerialService {
     // Debugging
     private static final String TAG = "BluetoothReadService";
     private static final boolean D = true;
-    public static String señal = "Recibido";
+    public static String señal = "OK";
+    public static String dataConfiguration = "";
 
 
 	private static final UUID SerialPortServiceClass_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -319,7 +327,10 @@ public class BluetoothSerialService {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
         private final OutputStream mmOutStream;
-        
+
+        boolean boolLed;
+        boolean boolVibrador;
+        int peso;
 
         public ConnectedThread(BluetoothSocket socket) {
             Log.d(TAG, "create ConnectedThread");
@@ -341,21 +352,43 @@ public class BluetoothSerialService {
 
         public void run() {
             Log.i(TAG, "BEGIN mConnectedThread");
-            byte[] buffer = new byte[1024];
-            byte[] buffer2 = new byte[1024];
+
+            byte[] bufferLectura = new byte[1024];
+            byte[] bufferEscritura = new byte[1024];
             int bytes;
-            String asd = "OK";
-            buffer2 = asd.getBytes();
+
+            bufferEscritura = señal.getBytes();
+
+            SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+
+
 
             // Keep listening to the InputStream while connected
-            while (true) {
+            while (mState == STATE_CONNECTED) {
                 try {
                     // Read from the InputStream
-                    bytes = mmInStream.read(buffer);
-                    //mEmulatorView.write(buffer, bytes);
+                    bytes = mmInStream.read(bufferLectura);
+                    // GUARDAR DATOS EN LA BASE DE DATOS
+
                     // Send the obtained bytes to the UI Activity
-                    mHandler.obtainMessage(2, bytes, -1, buffer).sendToTarget();
-                    write(buffer2);
+                    mHandler.obtainMessage(2, bytes, -1, bufferLectura).sendToTarget();
+
+                    if(señal == "CF"){
+                        boolLed = myPreferences.getBoolean("LEDS", true);
+                        boolVibrador = myPreferences.getBoolean("VIBRADOR", true);
+                        peso = myPreferences.getInt("PESO", 0);
+
+                        write(señal.getBytes());
+
+                        dataConfiguration = "" + boolLed + ";" + boolVibrador + ";" + peso + "";
+                        bufferEscritura = dataConfiguration.getBytes();
+                        write(bufferEscritura);
+
+                        señal = "OK";
+                        bufferEscritura = señal.getBytes();
+                    }else{
+                        write(bufferEscritura);
+                    }
                 } catch (IOException e) {
                     Log.e(TAG, "disconnected", e);
                     connectionLost();
@@ -371,6 +404,7 @@ public class BluetoothSerialService {
         public void write(byte[] buffer) {
             try {
                 mmOutStream.write(buffer);
+                mmOutStream.flush();
                 // Share the sent message back to the UI Activity
                 /*mHandler.obtainMessage(BlueTerm.MESSAGE_WRITE, buffer.length, -1, buffer)
                         .sendToTarget();*/

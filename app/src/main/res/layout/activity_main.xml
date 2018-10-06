@@ -10,7 +10,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="563dp">
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/barchart"
@@ -26,7 +26,7 @@
             android:layout_height="195dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="70dp" />
+            android:layout_marginBottom="44dp" />
 
         <Button
             android:id="@+id/btnHistorico"
@@ -39,13 +39,7 @@
             android:text="+"
             android:textStyle="bold" />
 
-        <ListView
-            android:id="@+id/listViewDispositivos"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="225dp" />
+
     </RelativeLayout>
 
     <android.support.design.widget.BottomNavigationView
