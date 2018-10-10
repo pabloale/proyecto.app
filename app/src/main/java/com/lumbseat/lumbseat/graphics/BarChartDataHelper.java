@@ -22,7 +22,6 @@ import java.util.ArrayList;
 
 public class BarChartDataHelper {
 
-    private SQLiteDatabase db;
     final private String BARCHART_QUERY = "SELECT d1.timeStamp, d2.total * 100.0 / count(*)" +
             "        FROM datos d1 JOIN ( SELECT timeStamp, count(*) total" +
             "                             FROM datos" +
@@ -30,39 +29,32 @@ public class BarChartDataHelper {
             "        ON d1.timeStamp = d2.timeStamp GROUP BY d1.timeStamp" +
             "        ORDER BY d1.timeStamp desc" +
             "        LIMIT 7";
+    private ArrayList<BarEntry> entries = new ArrayList<>();
+    private ArrayList<String> labels = new ArrayList<>();
 
     public BarChartDataHelper(SQLiteDatabase db)
     {
-        this.db = db;
+        Cursor cursor = db.rawQuery(BARCHART_QUERY, null);
+
+        int counter = 0;
+
+        while(cursor.moveToNext()) {
+            BarEntry entry = new BarEntry(cursor.getFloat(1), counter); //Percent
+            counter++;
+            entries.add(entry);
+            labels.add(cursor.getString(0)); //Date
+        }
+
+        cursor.close();
     }
 
     public ArrayList<BarEntry> GetEntriesData()
     {
-        ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
-
-        Cursor cursor = db.rawQuery(BARCHART_QUERY, null);
-
-        while(cursor.moveToNext()) {
-            BarEntry entry = new BarEntry(cursor.getFloat(0), cursor.getInt(1));
-            entries.add(entry);
-        }
-
-        cursor.close();
         return entries;
     }
 
     public ArrayList<String> GetLabelsData()
     {
-        ArrayList<String> labels = new ArrayList<String>();
-
-        labels.add("Do");
-        labels.add("Lu");
-        labels.add("Ma");
-        labels.add("Mi");
-        labels.add("Ju");
-        labels.add("Vi");
-        labels.add("Sa");
-
         return labels;
     }
 }
