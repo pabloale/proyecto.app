@@ -25,7 +25,7 @@ public class GraphicHelper {
         BarChartDataHelper barChartDataHelper = new BarChartDataHelper(db);
         BarChart configuratedBarChart = originalBarchart;
 
-        ArrayList<BarEntry> entries = barChartDataHelper.GetEntriesData(configuratedBarChart);
+        ArrayList<BarEntry> entries = barChartDataHelper.GetEntriesData();
 
         BarDataSet barDataSet = new BarDataSet(entries, "PORCENTAJE BIEN SENTADO");
 		/*
@@ -36,7 +36,7 @@ public class GraphicHelper {
         entries.add(new BarEntry(7f, 4));
         entries.add(new BarEntry(5f, 5));
         entries.add(new BarEntry(10f, 6));*/
-        ArrayList<String> labels = barChartDataHelper.GetLabelsData(configuratedBarChart);
+        ArrayList<String> labels = barChartDataHelper.GetLabelsData();
 
         /*
         labels.add("Do");

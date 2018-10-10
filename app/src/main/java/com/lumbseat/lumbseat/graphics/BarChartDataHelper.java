@@ -1,6 +1,7 @@
 package com.lumbseat.lumbseat.graphics;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 
@@ -22,38 +23,46 @@ import java.util.ArrayList;
 public class BarChartDataHelper {
 
     private SQLiteDatabase db;
+    final private String BARCHART_QUERY = "SELECT d1.timeStamp, d2.total * 100.0 / count(*)" +
+            "        FROM datos d1 JOIN ( SELECT timeStamp, count(*) total" +
+            "                             FROM datos" +
+            "                             WHERE bienSentado = 1 GROUP BY timeStamp) d2" +
+            "        ON d1.timeStamp = d2.timeStamp GROUP BY d1.timeStamp" +
+            "        ORDER BY d1.timeStamp desc" +
+            "        LIMIT 7";
 
     public BarChartDataHelper(SQLiteDatabase db)
     {
         this.db = db;
     }
 
-    public ArrayList<BarEntry> GetEntriesData(BarChart originalBarchart)
+    public ArrayList<BarEntry> GetEntriesData()
     {
         ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
 
+        Cursor cursor = db.rawQuery(BARCHART_QUERY, null);
 
-        db.rawQuery( "SELECT Rate, count(*) * 100.0 / (select count(*) from MyTable)" +
-                "FROM " + Utilities.TABLA_DATOS +
-                "GROUP BY " + Utilities.CAMPO_TIMESTAMP, null);
+        while(cursor.moveToNext()) {
+            BarEntry entry = new BarEntry(cursor.getFloat(0), cursor.getInt(1));
+            entries.add(entry);
+        }
 
-        /*
-        SELECT d1.timeStamp, d2.total * 100.0 / count(*)
-        FROM datos d1 JOIN ( SELECT timeStamp, count(*) total
-                             FROM datos
-                             WHERE bienSentado = 1 GROUP BY timeStamp) d2
-        ON d1.timeStamp = d2.timeStamp GROUP BY d1.timeStamp
-        ORDER BY d1.timeStamp desc
-        LIMIT 7
-         */
-        //new BarEntry(entry.noseque, entry.noseque);
-
+        cursor.close();
         return entries;
     }
 
-    public ArrayList<String> GetLabelsData(BarChart originalBarchart)
+    public ArrayList<String> GetLabelsData()
     {
-        ArrayList<String> list = new ArrayList<String>();
-        return list;
+        ArrayList<String> labels = new ArrayList<String>();
+
+        labels.add("Do");
+        labels.add("Lu");
+        labels.add("Ma");
+        labels.add("Mi");
+        labels.add("Ju");
+        labels.add("Vi");
+        labels.add("Sa");
+
+        return labels;
     }
 }
