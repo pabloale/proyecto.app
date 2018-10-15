@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
@@ -28,6 +30,9 @@ import com.lumbseat.lumbseat.bluetooth.BluetoothConnection;
 import com.lumbseat.lumbseat.dataBase.SQLiteConnectionHelper;
 import com.lumbseat.lumbseat.graphics.GraphicHelper;
 import com.lumbseat.lumbseat.utilities.Utilities;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 
 public class MainActivity extends Activity implements OnChartValueSelectedListener {
@@ -88,17 +93,31 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
         SQLiteConnectionHelper conn = new SQLiteConnectionHelper(this, Utilities.BASE_DATOS, null, 1);
         SQLiteDatabase db = conn.getWritableDatabase();
 
-        ContentValues values = new ContentValues();
-        values.put(Utilities.CAMPO_ID, 1);
-        values.put(Utilities.CAMPO_SENS_RESISTIVO_ATRAS_DER, 3.50 );
-        values.put(Utilities.CAMPO_SENS_RESISTIVO_ATRAS_IZQ, 3.50);
-        values.put(Utilities.CAMPO_SENS_RESISTIVO_ADEL_DER, 3.41);
-        values.put(Utilities.CAMPO_SENS_RESISTIVO_ADEL_IZQ, 3.43);
-        values.put(Utilities.CAMPO_SENS_DIST_LUMBAR, 1);
-        values.put(Utilities.CAMPO_SENS_DIST_CERVICAL, 1);
-        values.put(Utilities.CAMPO_BIEN_SENTADO, 1);
 
-        Long idResultante = db.insert(Utilities.TABLA_DATOS, Utilities.CAMPO_ID, values);
+/*
+        ContentValues values = new ContentValues();
+
+        try {
+            values.put(Utilities.CAMPO_ID, 1);
+            values.put(Utilities.CAMPO_TIMESTAMP, "07/10/2018");
+            values.put(Utilities.CAMPO_SENS_RESISTIVO_ATRAS_DER, 3.50 );
+            values.put(Utilities.CAMPO_SENS_RESISTIVO_ATRAS_IZQ, 3.50);
+            values.put(Utilities.CAMPO_SENS_RESISTIVO_ADEL_DER, 3.41);
+            values.put(Utilities.CAMPO_SENS_RESISTIVO_ADEL_IZQ, 3.43);
+            values.put(Utilities.CAMPO_SENS_DIST_LUMBAR, 1);
+            values.put(Utilities.CAMPO_SENS_DIST_CERVICAL, 1);
+            values.put(Utilities.CAMPO_BIEN_SENTADO, 1);
+            values.put(Utilities.CAMPO_MAL_ABAJO_LEJOS, 1);
+            values.put(Utilities.CAMPO_MAL_ARRIBA_LEJOS, 1);
+            values.put(Utilities.CAMPO_MAL_SENTADO_DER, 1);
+            values.put(Utilities.CAMPO_MAL_SENTADO_IZQ, 1);
+
+            db.insert(Utilities.TABLA_DATOS, Utilities.CAMPO_ID, values);
+
+        } catch (Exception e) {
+
+        }
+*/
         //Toast.makeText(getApplicationContext(),"ID: "+ idResultante,Toast.LENGTH_SHORT).show();
         db.close();
 
@@ -108,15 +127,13 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
 
         //GRAFICO DE BARRAS
         BarChart barChart = (BarChart) findViewById(R.id.barchart);
-        GraphicHelper.configurateBarChart(barChart);
+        GraphicHelper.configurateBarChart(barChart, db2);
 
         //GRAFICO DE TORTA
         PieChart pieChart = (PieChart) findViewById(R.id.piechart);
-        GraphicHelper.configuratePieChart(pieChart,this);
-
+        GraphicHelper.configuratePieChart(pieChart,this, db2);
 
         //BLUETOOTH
-
         mBluetoothAdapter  = BluetoothAdapter.getDefaultAdapter();
         String status = "";
         if (mBluetoothAdapter == null) {

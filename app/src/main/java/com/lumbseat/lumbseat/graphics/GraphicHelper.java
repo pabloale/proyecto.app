@@ -6,6 +6,7 @@ import android.graphics.Color;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -22,43 +23,36 @@ public class GraphicHelper {
 
     public static BarChart configurateBarChart(BarChart originalBarchart, SQLiteDatabase db)
     {
-        BarChartDataHelper barChartDataHelper = new BarChartDataHelper(db);
         BarChart configuratedBarChart = originalBarchart;
 
+        BarChartDataHelper barChartDataHelper = new BarChartDataHelper(db);
         ArrayList<BarEntry> entries = barChartDataHelper.GetEntriesData();
-
-        BarDataSet barDataSet = new BarDataSet(entries, "PORCENTAJE BIEN SENTADO");
-		/*
-        entries.add(new BarEntry(8f, 0));
-        entries.add(new BarEntry(2f, 1));
-        entries.add(new BarEntry(5f, 2));
-        entries.add(new BarEntry(2f, 3));
-        entries.add(new BarEntry(7f, 4));
-        entries.add(new BarEntry(5f, 5));
-        entries.add(new BarEntry(10f, 6));*/
         ArrayList<String> labels = barChartDataHelper.GetLabelsData();
 
-        /*
-        labels.add("Do");
-        labels.add("Lu");
-        labels.add("Ma");
-        labels.add("Mi");
-        labels.add("Ju");
-        labels.add("Vi");
-        labels.add("Sa");*/
-
+        BarDataSet barDataSet = new BarDataSet(entries, "PORCENTAJE BIEN SENTADO");
         BarData dataBar = new BarData(labels, barDataSet);
-        configuratedBarChart.setData(dataBar); // set the data and list of labels into chart
 
-        configuratedBarChart.setDescription("Postura corporal semanal");  // set the description
-        barDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+        configuratedBarChart.setData(dataBar); // set the data and list of labels into chart
+        configuratedBarChart.setDescription(" ");
+
+        final int[] LUMBSEAT_COLORS = {
+                Color.rgb(15, 60, 79), Color.rgb(18, 70, 91), Color.rgb(22, 88, 114),
+                Color.rgb(26, 98, 124), Color.rgb(30, 116, 140), Color.rgb(34, 136, 156),
+                Color.rgb(38, 156, 170)
+        };
+        barDataSet.setColors(LUMBSEAT_COLORS);
 
         configuratedBarChart.animateY(2000);
+        configuratedBarChart.getAxisLeft().setAxisMinValue(0);
+        configuratedBarChart.getAxisLeft().setAxisMaxValue(110);
+
+        configuratedBarChart.getAxisRight().setEnabled(false);
+
+        configuratedBarChart.setDrawGridBackground(false);
+        configuratedBarChart.setPinchZoom(false);
 
         return configuratedBarChart;
     }
-
-
 
     public static PieChart configuratePieChart(PieChart originalPieChart, MainActivity mainActivity, SQLiteDatabase db)
     {
@@ -86,6 +80,7 @@ public class GraphicHelper {
 
         configuratedPieChart.setData(data);
         configuratedPieChart.setDescription("Postura corporal diaria");
+        configuratedPieChart.setDescriptionTextSize(12f);
         configuratedPieChart.setHoleColor(android.R.color.transparent);
         configuratedPieChart.setDrawHoleEnabled(true);
         configuratedPieChart.setTransparentCircleRadius(30f);

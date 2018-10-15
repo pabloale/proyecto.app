@@ -22,13 +22,14 @@ import java.util.ArrayList;
 
 public class BarChartDataHelper {
 
-    final private String BARCHART_QUERY = "SELECT d1.timeStamp, d2.total * 100.0 / count(*)" +
+    final private String BARCHART_QUERY = "SELECT timeStamp, percent FROM(SELECT d1.timeStamp, d2.total * 100.0 / count(*) as percent" +
             "        FROM datos d1 JOIN ( SELECT timeStamp, count(*) total" +
             "                             FROM datos" +
             "                             WHERE bienSentado = 1 GROUP BY timeStamp) d2" +
             "        ON d1.timeStamp = d2.timeStamp GROUP BY d1.timeStamp" +
             "        ORDER BY d1.timeStamp desc" +
-            "        LIMIT 7";
+            "        LIMIT 7)" +
+            "        ORDER BY timeStamp asc";
     private ArrayList<BarEntry> entries = new ArrayList<>();
     private ArrayList<String> labels = new ArrayList<>();
 

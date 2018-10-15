@@ -46,6 +46,19 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="225dp" />
+
+        <TextView
+            android:id="@+id/txtBarChart"
+            android:layout_width="346dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="7dp"
+            android:text="Postura corporal semanal"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+
     </RelativeLayout>
 
     <android.support.design.widget.BottomNavigationView
