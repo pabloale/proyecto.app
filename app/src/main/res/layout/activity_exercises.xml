@@ -50,10 +50,10 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="283dp"
-            android:layout_height="316dp"
+            android:layout_height="167dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="75dp"
+            android:layout_marginBottom="151dp"
             android:src="@drawable/streching" />
 
 

@@ -7,7 +7,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/grafico2"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -51,9 +51,15 @@
 
         <activity
             android:name=".HistoricosActivity"
+<<<<<<< HEAD
             android:label="@string/title_activity_historicos"
             android:screenOrientation="portrait"/>
         <activity android:name=".bluetooth.BluetoothConnection"></activity>
+=======
+            android:label="@string/title_activity_historicos" />
+        <activity android:name=".bluetooth.BluetoothConnection" />
+        <activity android:name=".bluetooth.BluetoothList"></activity>
+>>>>>>> ba897fa8e21a39d954ba85b04443cb0f01087ab5
     </application>
 
 </manifest>

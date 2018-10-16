@@ -10,7 +10,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="563dp">
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/barchart"
@@ -26,7 +26,7 @@
             android:layout_height="195dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="70dp" />
+            android:layout_marginBottom="44dp" />
 
         <Button
             android:id="@+id/btnHistorico"
@@ -39,6 +39,7 @@
             android:text="+"
             android:textStyle="bold" />
 
+<<<<<<< HEAD
         <ListView
             android:id="@+id/listViewDispositivos"
             android:layout_width="match_parent"
@@ -58,6 +59,8 @@
             android:layout_marginTop="7dp"
             android:text="Postura corporal semanal"
             android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+=======
+>>>>>>> ba897fa8e21a39d954ba85b04443cb0f01087ab5
 
     </RelativeLayout>
 

@@ -28,6 +28,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.lumbseat.lumbseat.bluetooth.BluetoothSerialService;
 
 public class ConfigurationActivity extends Activity {
 
@@ -60,9 +61,9 @@ public class ConfigurationActivity extends Activity {
     private GoogleApiClient mGoogleApiClient;
     private Button btnSignOut;
 
-    int peso = 0;
     boolean boolLed;
     boolean boolVibrador;
+    int peso = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,10 +78,6 @@ public class ConfigurationActivity extends Activity {
 
         SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        peso = myPreferences.getInt("PESO", 0);
-        EditText etPeso = (EditText)findViewById(R.id.et1);
-        etPeso.setText(""+peso);
-
         boolLed = myPreferences.getBoolean("LEDS", true);
         Switch switchLeds = (Switch)findViewById(R.id.switchLeds);
         switchLeds.setChecked(boolLed);
@@ -88,6 +85,10 @@ public class ConfigurationActivity extends Activity {
         boolVibrador = myPreferences.getBoolean("VIBRADOR", true);
         Switch switchVibrador = (Switch)findViewById(R.id.switchVibrador);
         switchVibrador.setChecked(boolVibrador);
+
+        peso = myPreferences.getInt("PESO", 0);
+        EditText etPeso = (EditText)findViewById(R.id.et1);
+        etPeso.setText(""+peso);
     }
 
     @Override
@@ -108,6 +109,7 @@ public class ConfigurationActivity extends Activity {
                 SharedPreferences.Editor myEditor = myPreferences.edit();
                 myEditor.putBoolean("LEDS",isChecked);
                 myEditor.commit();
+                BluetoothSerialService.señal = "CF";
             }
         });
 
@@ -118,22 +120,7 @@ public class ConfigurationActivity extends Activity {
                 SharedPreferences.Editor myEditor = myPreferences.edit();
                 myEditor.putBoolean("VIBRADOR",isChecked);
                 myEditor.commit();
-            }
-        });
-
-        btnSignOut = findViewById(R.id.sign_out_button);
-        btnSignOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                    Toast.makeText(getApplicationContext(),"Logged Out",Toast.LENGTH_SHORT).show();
-                    Intent i=new Intent(getApplicationContext(),LoginActivity.class);
-                    startActivity(i);
-                    }
-                });
+                BluetoothSerialService.señal = "CF";
             }
         });
 
@@ -148,10 +135,26 @@ public class ConfigurationActivity extends Activity {
                 SharedPreferences.Editor myEditor = myPreferences.edit();
                 myEditor.putInt("PESO",peso);
                 myEditor.commit();
+                BluetoothSerialService.señal = "CF";
             }
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
-    }
 
+        btnSignOut = findViewById(R.id.sign_out_button);
+        btnSignOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                        new ResultCallback<Status>() {
+                            @Override
+                            public void onResult(Status status) {
+                                Toast.makeText(getApplicationContext(),"Logged Out",Toast.LENGTH_SHORT).show();
+                                Intent i=new Intent(getApplicationContext(),LoginActivity.class);
+                                startActivity(i);
+                            }
+                        });
+            }
+        });
+    }
 }
