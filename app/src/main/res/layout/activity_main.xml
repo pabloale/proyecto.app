@@ -39,15 +39,6 @@
             android:text="+"
             android:textStyle="bold" />
 
-<<<<<<< HEAD
-        <ListView
-            android:id="@+id/listViewDispositivos"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="225dp" />
-
         <TextView
             android:id="@+id/txtBarChart"
             android:layout_width="346dp"
@@ -59,8 +50,6 @@
             android:layout_marginTop="7dp"
             android:text="Postura corporal semanal"
             android:textColor="@color/common_google_signin_btn_text_dark_focused" />
-=======
->>>>>>> ba897fa8e21a39d954ba85b04443cb0f01087ab5
 
     </RelativeLayout>
 

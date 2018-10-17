@@ -2,8 +2,11 @@ package com.lumbseat.lumbseat;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -16,18 +19,31 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.drive.CreateFileActivityOptions;
+import com.google.android.gms.drive.Drive;
+import com.google.android.gms.drive.DriveClient;
+import com.google.android.gms.drive.DriveContents;
+import com.google.android.gms.drive.DriveResourceClient;
+import com.google.android.gms.drive.MetadataChangeSet;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.lumbseat.lumbseat.bluetooth.BluetoothConnection;
 import com.lumbseat.lumbseat.dataBase.SQLiteConnectionHelper;
 import com.lumbseat.lumbseat.utilities.Utilities;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.Date;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private SignInButton signInButton;
+
     private GoogleSignInClient mGoogleSignInClient;
+    private GoogleSignInAccount account;
     static final int RC_SIGN_IN = 1;
 
     @Override
@@ -47,7 +63,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onStart() {
         super.onStart();
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        account = GoogleSignIn.getLastSignedInAccount(this);
         updateUI(account);
     }
 
@@ -83,9 +99,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+             account = completedTask.getResult(ApiException.class);
             // Signed in successfully, show authenticated UI.
             updateUI(account);
+
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
@@ -103,12 +120,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             String personId = account.getId();
             Uri personPhoto = account.getPhotoUrl();*/
 
-            Toast.makeText(getApplicationContext(),personName + " Logged In",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Usuario " + personName + " logueado",Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(LoginActivity.this, ConfigPesoActivity.class);
             intent.putExtra("ACCOUNT_OBJECT", account);
             startActivity(intent);
         }
+    }
+
+    public GoogleSignInAccount getAccount() {
+        return account;
     }
 
 }
