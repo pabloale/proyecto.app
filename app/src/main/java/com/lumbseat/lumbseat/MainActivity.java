@@ -94,20 +94,20 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
 
         try {
             values.put(Utilities.CAMPO_ID, 1);
-            values.put(Utilities.CAMPO_TIMESTAMP, "2018-10-12 12:33:50.698023");
+            values.put(Utilities.CAMPO_TIMESTAMP, "2018-10-14 12:33:50.698023");
             values.put(Utilities.CAMPO_SENS_RESISTIVO_ATRAS_DER, 3.50 );
             values.put(Utilities.CAMPO_SENS_RESISTIVO_ATRAS_IZQ, 3.50);
             values.put(Utilities.CAMPO_SENS_RESISTIVO_ADEL_DER, 3.41);
             values.put(Utilities.CAMPO_SENS_RESISTIVO_ADEL_IZQ, 3.43);
             values.put(Utilities.CAMPO_SENS_DIST_LUMBAR, 1);
             values.put(Utilities.CAMPO_SENS_DIST_CERVICAL, 1);
-            values.put(Utilities.CAMPO_BIEN_SENTADO, 0);
+            values.put(Utilities.CAMPO_BIEN_SENTADO, 1);
             values.put(Utilities.CAMPO_MAL_ABAJO_LEJOS, 1);
             values.put(Utilities.CAMPO_MAL_ARRIBA_LEJOS, 1);
             values.put(Utilities.CAMPO_MAL_SENTADO_DER, 1);
             values.put(Utilities.CAMPO_MAL_SENTADO_IZQ, 1);
 
-            db.insert(Utilities.TABLA_DATOS, Utilities.CAMPO_ID, values);
+            //db.insert(Utilities.TABLA_DATOS, Utilities.CAMPO_ID, values);
 
         } catch (Exception e) {
 
