@@ -1,17 +1,11 @@
 package com.lumbseat.lumbseat;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.content.IntentSender;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.util.Log;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -19,24 +13,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.drive.CreateFileActivityOptions;
-import com.google.android.gms.drive.Drive;
-import com.google.android.gms.drive.DriveClient;
-import com.google.android.gms.drive.DriveContents;
-import com.google.android.gms.drive.DriveResourceClient;
-import com.google.android.gms.drive.MetadataChangeSet;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.lumbseat.lumbseat.bluetooth.BluetoothConnection;
-import com.lumbseat.lumbseat.dataBase.SQLiteConnectionHelper;
-import com.lumbseat.lumbseat.utilities.Utilities;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Calendar;
-import java.util.Date;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -52,11 +29,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         signInButton = findViewById(R.id.sign_in_button);
-/*
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);*/
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         signInButton.setOnClickListener(this);
     }
 
@@ -69,15 +46,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        /*switch (v.getId()) {
+        switch (v.getId()) {
             case R.id.sign_in_button:
                 signIn();
                 break;
-        }*/
+        }
 
-        //escomentar arriba y borrar esto de abajo
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(intent);
+        //TODO: escomentar arriba y borrar esto de abajo
+        //Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        //startActivity(intent);
     }
 
     private void signIn() {

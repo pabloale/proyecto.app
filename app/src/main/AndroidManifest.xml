@@ -47,12 +47,14 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
         <activity
             android:name=".HistoricosActivity"
             android:label="@string/title_activity_historicos"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+        <activity android:name=".bluetooth.BluetoothConnection" />
         <activity android:name=".bluetooth.BluetoothList"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

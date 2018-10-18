@@ -33,6 +33,8 @@ public class BluetoothConnection extends Activity {
     public BluetoothDevice mDevice;
     Handler mHandler;
 
+    public BluetoothConnection() {}
+
     public BluetoothConnection(Context context, ListView devicelist, Handler handler) {
 
         mHandler = handler;
