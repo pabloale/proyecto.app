@@ -23,7 +23,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private SignInButton signInButton;
 
     private GoogleSignInClient mGoogleSignInClient;
-    private GoogleSignInAccount account;
+    public static GoogleSignInAccount account;
     static final int RC_SIGN_IN = 1;
 
     public static DriveClient mDriveClient;

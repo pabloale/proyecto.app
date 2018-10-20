@@ -111,5 +111,6 @@
     <string name="title_activity_historicos">HistoricosActivity</string>
     <string name="bHasta">+</string>
     <string name="bDesde">+</string>
+    <string name="internet_error">Debe tener conectividad a Internet para poder realizar el Backup.</string>
 
 </resources>

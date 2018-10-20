@@ -5,41 +5,33 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.lumbseat.lumbseat.bluetooth.BluetoothConnection;
 import com.lumbseat.lumbseat.bluetooth.BluetoothList;
 import com.lumbseat.lumbseat.dataBase.SQLiteConnectionHelper;
 import com.lumbseat.lumbseat.graphics.GraphicHelper;
 import com.lumbseat.lumbseat.utilities.Utilities;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 
 public class MainActivity extends Activity implements OnChartValueSelectedListener {
 
     final int REQUEST_ENABLE_BT = 1;
     public static BluetoothAdapter mBluetoothAdapter;
+    public static String path;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -117,8 +109,8 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
         db.close();
 
         SQLiteDatabase db2 = conn.getReadableDatabase();
-        String path = db2.getPath().toString();
-        //Toast.makeText(getApplicationContext(),"El path de la base es: "+ path,Toast.LENGTH_SHORT).show();
+        /*path = db2.getPath().toString();
+        Toast.makeText(getApplicationContext(),"El path de la base es: "+ path,Toast.LENGTH_LONG).show();*/
 
 
 
