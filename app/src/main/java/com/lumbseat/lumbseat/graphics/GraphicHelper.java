@@ -24,8 +24,7 @@ public class GraphicHelper {
     public static BarChart configurateBarChart(BarChart originalBarchart, SQLiteDatabase db)
     {
         BarChart configuratedBarChart = originalBarchart;
-        //ACA PONER EL EMPTYDATEFILLER, Y QUE A PARTIR DE HOY, HASTA 7 DÍAS PARA ATRÁS, SI NO HAY DATOS DE ESE DÍA
-        //QUE LE PONGA UN 0.
+
         EmptyDateFiller edf = new EmptyDateFiller(db);
 
         BarChartDataHelper barChartDataHelper = new BarChartDataHelper(db);
@@ -62,6 +61,10 @@ public class GraphicHelper {
         PieChart configuratedPieChart = originalPieChart;
 
         configuratedPieChart.setUsePercentValues(true);
+
+        //ArrayList<Entry> yvalues = PieChartGdh.GetEntriesData(db);
+
+        //ArrayList<String> xVals = PieChartGdh.GetLabelsData(db);
 
         ArrayList<Entry> yvalues = new ArrayList<Entry>();
         yvalues.add(new Entry(35f, 0));

@@ -94,7 +94,7 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
 
         try {
             values.put(Utilities.CAMPO_ID, 1);
-            values.put(Utilities.CAMPO_TIMESTAMP, "2018-10-14 12:33:50.698023");
+            values.put(Utilities.CAMPO_TIMESTAMP, "2018-10-20 12:33:50.698023");
             values.put(Utilities.CAMPO_SENS_RESISTIVO_ATRAS_DER, 3.50 );
             values.put(Utilities.CAMPO_SENS_RESISTIVO_ATRAS_IZQ, 3.50);
             values.put(Utilities.CAMPO_SENS_RESISTIVO_ADEL_DER, 3.41);
