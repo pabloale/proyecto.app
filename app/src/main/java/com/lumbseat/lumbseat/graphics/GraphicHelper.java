@@ -73,8 +73,8 @@ public class GraphicHelper {
 
         ArrayList<String> xVals = new ArrayList<String>();
         xVals.add("BIEN SENTADO");
-        xVals.add("MAL SENTADO");
-*/
+        xVals.add("MAL SENTADO");*/
+
         PieDataSet dataSet = new PieDataSet(yvalues, "");
         final int[] ROJOVERDE = {Color.rgb(87, 193, 75), Color.rgb(209, 87, 87)};
         dataSet.setColors(ROJOVERDE);

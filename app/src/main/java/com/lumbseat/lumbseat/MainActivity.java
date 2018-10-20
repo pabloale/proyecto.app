@@ -107,7 +107,7 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
             values.put(Utilities.CAMPO_MAL_SENTADO_DER, 1);
             values.put(Utilities.CAMPO_MAL_SENTADO_IZQ, 1);
 
-            //db.insert(Utilities.TABLA_DATOS, Utilities.CAMPO_ID, values);
+            db.insert(Utilities.TABLA_DATOS, Utilities.CAMPO_ID, values);
 
         } catch (Exception e) {
 

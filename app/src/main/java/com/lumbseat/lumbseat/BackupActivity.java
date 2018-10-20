@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.util.Log;
@@ -34,29 +36,34 @@ import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.DriveFolder;
 import com.google.android.gms.drive.DriveResourceClient;
 import com.google.android.gms.drive.MetadataChangeSet;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 
-public class BackupActivity extends Activity
-        implements ConnectionCallbacks, OnConnectionFailedListener {
+public class BackupActivity extends Activity {
 
-    private static final String TAG = "drive_Humanity";
+    private static final String TAG = "drive_lumbseat";
     private static final int REQUEST_CODE_RESOLUTION = 3;
     public static DriveFile mfile;
-    private static GoogleApiClient mGoogleApiClient;
     private static final String DATABASE_PATH = "/data/data/com.lumbseat.lumbseat/databases/bd_datos";
     private static final File DATA_DIRECTORY_DATABASE =
             new File(Environment.getDataDirectory() + "/data/data/com.lumbseat.lumbseat/databases/bd_datos");
     private static final String MIME_TYPE = "application/x-sqlite-3";
 
 
-    private DriveClient mDriveClient;
-    private DriveResourceClient mDriveResourceClient;
+    private static final int REQUEST_CODE_SIGN_IN = 0;
+    private static final int REQUEST_CODE_CAPTURE_IMAGE = 1;
+    private static final int REQUEST_CODE_CREATOR = 2;
+    private Bitmap mBitmapToSave;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -97,173 +104,113 @@ public class BackupActivity extends Activity
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         Toast.makeText(BackupActivity.this,"Usuario " + account.getDisplayName() + " logueado",Toast.LENGTH_SHORT).show();
-        //initializeDriveClient(account);
 
         Button btnBackup = findViewById(R.id.btnBackup);
         btnBackup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                guardarBdEnDrive();
+                startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), REQUEST_CODE_CREATOR);
             }
         });
 
     }
 
-    private void initializeDriveClient(GoogleSignInAccount signInAccount) {
-        mDriveClient = Drive.getDriveClient(getApplicationContext(), signInAccount);
-        mDriveResourceClient = Drive.getDriveResourceClient(getApplicationContext(), signInAccount);
-    }
 
-    /** Create a new file and save it to Drive. */
     private void guardarBdEnDrive() {
-        // Start by creating a new contents, and setting a callback.
-        Drive.DriveApi.newDriveContents(mGoogleApiClient).setResultCallback(new ResultCallback<DriveApi.DriveContentsResult>() {
-            @Override
-            public void onResult(@NonNull DriveApi.DriveContentsResult result) {
-                if (!result.getStatus().isSuccess()) {
-                    Toast.makeText(BackupActivity.this, "Error while trying to create new file contents", Toast.LENGTH_LONG).show();
-                    return;
-                }
 
-                String mimeType = MimeTypeMap.getSingleton().getExtensionFromMimeType(MIME_TYPE);
-                MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
-                        .setTitle("bd_datos") // Google Drive File name
-                        .setMimeType(mimeType)
-                        .setStarred(true).build();
-                // create a file on root folder
-                Drive.DriveApi.getRootFolder(mGoogleApiClient)
-                        .createFile(mGoogleApiClient, changeSet, result.getDriveContents()).setResultCallback((ResultCallback<? super DriveFolder.DriveFileResult>) backupFileCallback);
+        final Bitmap image = mBitmapToSave;
 
-            }
-        });
+        LoginActivity.mDriveResourceClient
+                .createContents()
+                .continueWithTask(
+                        new Continuation<DriveContents, Task<Void>>() {
+                            @Override
+                            public Task<Void> then(@NonNull Task<DriveContents> task) throws Exception {
+                                return createFileIntentSender(task.getResult(), image);
+                            }
+                        })
+                .addOnFailureListener(
+                        new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Failed to create new contents.", e);
+                            }
+                        });
     }
 
-    public static void doGDriveBackup() {
-        Drive.DriveApi.newDriveContents(mGoogleApiClient).setResultCallback(backupContentsCallback);
-
-    }
-
-    static final private ResultCallback<DriveApi.DriveContentsResult> backupContentsCallback = new
-            ResultCallback<DriveApi.DriveContentsResult>() {
-                @Override
-                public void onResult(DriveApi.DriveContentsResult result) {
-                    if (!result.getStatus().isSuccess()) {
-                        return;
-                    }
-                    String mimeType = MimeTypeMap.getSingleton().getExtensionFromMimeType(MIME_TYPE);
-                    MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
-                            .setTitle("bd_datos") // Google Drive File name
-                            .setMimeType(mimeType)
-                            .setStarred(true).build();
-                    // create a file on root folder
-                    Drive.DriveApi.getRootFolder(mGoogleApiClient)
-                            .createFile(mGoogleApiClient, changeSet, result.getDriveContents())
-                            .setResultCallback(backupFileCallback);
-                }
-            };
-
-    static final private ResultCallback<DriveFolder.DriveFileResult> backupFileCallback = new
-            ResultCallback<DriveFolder.DriveFileResult>() {
-                @Override
-                public void onResult(DriveFolder.DriveFileResult result) {
-                    if (!result.getStatus().isSuccess()) {
-                        return;
-                    }
-                    mfile = result.getDriveFile();
-                    mfile.open(mGoogleApiClient, DriveFile.MODE_WRITE_ONLY, new DriveFile.DownloadProgressListener() {
-                        @Override
-                        public void onProgress(long bytesDownloaded, long bytesExpected) {
-                        }
-                    }).setResultCallback(backupContentsOpenedCallback);
-                }
-            };
-
-    static final private ResultCallback<DriveApi.DriveContentsResult> backupContentsOpenedCallback = new
-            ResultCallback<DriveApi.DriveContentsResult>() {
-                @Override
-                public void onResult(DriveApi.DriveContentsResult result) {
-                    if (!result.getStatus().isSuccess()) {
-                        return;
-                    }
-//            DialogFragment_Sync.setProgressText("Backing up..");
-                    DriveContents contents = result.getDriveContents();
-                    BufferedOutputStream bos = new BufferedOutputStream(contents.getOutputStream());
-                    byte[] buffer = new byte[1024];
-                    int n;
-
-                    try {
-                        FileInputStream is = new FileInputStream(DATA_DIRECTORY_DATABASE);
-                        BufferedInputStream bis = new BufferedInputStream(is);
-
-                        while ((n = bis.read(buffer)) > 0) {
-                            bos.write(buffer, 0, n);
-//                    DialogFragment_Sync.setProgressText("Backing up...");
-                        }
-                        bos.close();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    contents.commit(mGoogleApiClient, null).setResultCallback(new ResultCallback<Status>() {
-                        @Override
-                        public void onResult(Status status) {
-//                    DialogFragment_Sync.setProgressText("Backup completed!");
-//                    mToast(act.getResources().getString(R.string.backupComplete));
-//                    DialogFragment_Sync.dismissDialog();
-                        }
-                    });
-                }
-            };
-
-    @Override
-    public void onConnected(Bundle connectionHint) {
-        Log.i(TAG, "API client connected.");
-
-        guardarBdEnDrive();
-//        doDriveBackup();
-    }
-
-    @Override
-    public void onConnectionSuspended(int cause) {
-        Log.i(TAG, "GoogleApiClient connection suspended");
-    }
-
-    @Override
-    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            guardarBdEnDrive();
-        }
-
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult result) {
-        Log.i(TAG, "GoogleApiClient connection failed: " + result.toString());
-        if (!result.hasResolution()) {
-            // show the localized error dialog.
-            GoogleApiAvailability.getInstance().getErrorDialog(this, result.getErrorCode(), 0).show();
-            return;
-        }
+    private Task<Void> createFileIntentSender(DriveContents driveContents, Bitmap image) {
+        Log.i(TAG, "New contents created.");
+        // Get an output stream for the contents.
+        OutputStream outputStream = driveContents.getOutputStream();
+        // Write the bitmap data from it.
+        ByteArrayOutputStream bitmapStream = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.PNG, 100, bitmapStream);
         try {
-            result.startResolutionForResult(this, REQUEST_CODE_RESOLUTION);
-        } catch (IntentSender.SendIntentException e) {
-            Log.e(TAG, "Exception while starting resolution activity", e);
+            outputStream.write(bitmapStream.toByteArray());
+        } catch (IOException e) {
+            Log.w(TAG, "Unable to write file contents.", e);
         }
+
+        // Create the initial metadata - MIME type and title.
+        // Note that the user will be able to change the title later.
+        MetadataChangeSet metadataChangeSet =
+                new MetadataChangeSet.Builder()
+                        .setMimeType("image/jpeg")
+                        .setTitle("Android Photo.png")
+                        .build();
+        // Set up options to configure and display the create file activity.
+        CreateFileActivityOptions createFileActivityOptions =
+                new CreateFileActivityOptions.Builder()
+                        .setInitialMetadata(metadataChangeSet)
+                        .setInitialDriveContents(driveContents)
+                        .build();
+
+        return LoginActivity.mDriveClient
+                .newCreateFileActivityIntentSender(createFileActivityOptions)
+                .continueWith(
+                        new Continuation<IntentSender, Void>() {
+                            @Override
+                            public Void then(@NonNull Task<IntentSender> task) throws Exception {
+                                startIntentSenderForResult(task.getResult(), REQUEST_CODE_CREATOR, null, 0, 0, 0);
+                                return null;
+                            }
+                        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addApi(Drive.API)
-                    .addScope(Drive.SCOPE_FILE)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .build();
+        if (LoginActivity.mDriveResourceClient == null) {
+            Intent i = new Intent(BackupActivity.this,LoginActivity.class);
+            startActivity(i);
         }
-        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CODE_CAPTURE_IMAGE:
+                Log.i(TAG, "capture image request code");
+                // Called after a photo has been taken.
+                if (resultCode == Activity.RESULT_OK) {
+                    Log.i(TAG, "Image captured successfully.");
+                    // Store the image data as a bitmap for writing later.
+                    mBitmapToSave = (Bitmap) data.getExtras().get("data");
+                    guardarBdEnDrive();
+                }
+                break;
+            case REQUEST_CODE_CREATOR:
+                Log.i(TAG, "creator request code");
+                // Called after a file is saved to Drive.
+                if (resultCode == RESULT_OK) {
+                    Log.i(TAG, "Image successfully saved.");
+                    mBitmapToSave = null;
+                    // Just start the camera again for another photo.
+                    startActivityForResult(
+                            new Intent(MediaStore.ACTION_IMAGE_CAPTURE), REQUEST_CODE_CAPTURE_IMAGE);
+                }
+                break;
+        }
     }
 }

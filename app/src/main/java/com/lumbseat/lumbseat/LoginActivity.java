@@ -13,6 +13,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.drive.Drive;
+import com.google.android.gms.drive.DriveClient;
+import com.google.android.gms.drive.DriveResourceClient;
 import com.google.android.gms.tasks.Task;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -23,6 +26,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private GoogleSignInAccount account;
     static final int RC_SIGN_IN = 1;
 
+    public static DriveClient mDriveClient;
+    public static DriveResourceClient mDriveResourceClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +37,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         signInButton = findViewById(R.id.sign_in_button);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestScopes(Drive.SCOPE_FILE)
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
@@ -66,36 +73,33 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
-        }
-    }
-
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try {
-             account = completedTask.getResult(ApiException.class);
-            // Signed in successfully, show authenticated UI.
-            updateUI(account);
-
-        } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.w("TAG", "signInResult:failed code=" + e.getStatusCode());
-            updateUI(null);
+        switch (requestCode) {
+            case RC_SIGN_IN:
+                if (resultCode == RESULT_OK) {
+                    // The Task returned from this call is always completed, no need to attach
+                    // a listener.
+                    Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                    try {
+                        account = task.getResult(ApiException.class);
+                        // Use the last signed in account here since it already have a Drive scope.
+                        mDriveClient = Drive.getDriveClient(this, account);
+                        // Build a drive resource client.
+                        mDriveResourceClient = Drive.getDriveResourceClient(this, account);
+                        // Signed in successfully, show authenticated UI.
+                        updateUI(account);
+                    } catch (ApiException e) {
+                        e.printStackTrace();
+                        Log.w("TAG", "signInResult:failed code=" + e.getStatusCode());
+                        updateUI(null);
+                    }
+                }
+                break;
         }
     }
 
     private void updateUI(GoogleSignInAccount account) {
         if (account != null) {
             String personName = account.getDisplayName();
-            /*String personGivenName = account.getGivenName();
-            String personFamilyName = account.getFamilyName();
-            String personEmail = account.getEmail();
-            String personId = account.getId();
-            Uri personPhoto = account.getPhotoUrl();*/
 
             Toast.makeText(getApplicationContext(),"Usuario " + personName + " logueado",Toast.LENGTH_SHORT).show();
 
@@ -104,9 +108,4 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             startActivity(intent);
         }
     }
-
-    public GoogleSignInAccount getAccount() {
-        return account;
-    }
-
 }
