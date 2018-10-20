@@ -2,6 +2,7 @@ package com.lumbseat.lumbseat;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -19,6 +20,9 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.lumbseat.lumbseat.dataBase.SQLiteConnectionHelper;
+import com.lumbseat.lumbseat.graphics.GraphicHelper;
+import com.lumbseat.lumbseat.utilities.Utilities;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -81,44 +85,12 @@ public class HistoricosActivity extends FragmentActivity implements OnChartValue
             }
         });
 
+        SQLiteConnectionHelper conn = new SQLiteConnectionHelper(this, Utilities.BASE_DATOS, null, 1);
+        SQLiteDatabase db = conn.getWritableDatabase();
+
         //GRAFICO DE TORTA
         PieChart pieChart = (PieChart) findViewById(R.id.piechartHistorico);
-        pieChart.setUsePercentValues(true);
-
-        // IMPORTANT: In a PieChart, no values (Entry) should have the same
-        // xIndex (even if from different DataSets), since no values can be
-        // drawn above each other.
-        ArrayList<Entry> yvalues = new ArrayList<Entry>();
-        yvalues.add(new Entry(48f, 0));
-        yvalues.add(new Entry(52f, 1));
-
-        PieDataSet dataSet = new PieDataSet(yvalues, "");
-
-        ArrayList<String> xVals = new ArrayList<String>();
-
-        xVals.add("BIEN SENTADO");
-        xVals.add("MAL SENTADO");
-
-
-        PieData data = new PieData(xVals, dataSet);
-        // In Percentage term
-        data.setValueFormatter(new PercentFormatter());
-        // Default value
-        //data.setValueFormatter(new DefaultValueFormatter(0));
-        pieChart.setData(data);
-        pieChart.setDescription("Postura corporal segun el rango seleccionado");
-
-        pieChart.setDrawHoleEnabled(true);
-        pieChart.setTransparentCircleRadius(30f);
-        pieChart.setHoleColor(android.R.color.transparent);
-        pieChart.setHoleRadius(25f);
-
-        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        data.setValueTextSize(13f);
-        data.setValueTextColor(Color.DKGRAY);
-        pieChart.setOnChartValueSelectedListener(this);
-
-        pieChart.animateXY(2000, 2000);
+        GraphicHelper.configurateHistoricPieChart(pieChart, this, db);
     }
 
 
@@ -135,9 +107,9 @@ public class HistoricosActivity extends FragmentActivity implements OnChartValue
                 String mesFormateado = (mesActual < 10)? 0 + String.valueOf(mesActual):String.valueOf(mesActual);
                 //Muestro la fecha con el formato deseado
                 if(tipo.contains("desde")){
-                    editTextDesde.setText(diaFormateado + "/" + mesFormateado + "/" + year);
+                    editTextDesde.setText(year + "/" + mesFormateado + "/" + diaFormateado);
                 }else{
-                    editTextHasta.setText(diaFormateado + "/" + mesFormateado + "/" + year);
+                    editTextHasta.setText(year + "/" + mesFormateado + "/" + diaFormateado);
                 }
             }
         },anio, mes, dia);

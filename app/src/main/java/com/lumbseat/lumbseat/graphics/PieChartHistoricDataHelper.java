@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class PieChartDataHelper {
+public class PieChartHistoricDataHelper {
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private Calendar today = Calendar.getInstance();
@@ -19,7 +19,7 @@ public class PieChartDataHelper {
     private ArrayList<Entry> entries = new ArrayList<>();
     private ArrayList<String> labels = new ArrayList<>();
 
-    public PieChartDataHelper(SQLiteDatabase db)
+    public PieChartHistoricDataHelper(SQLiteDatabase db)
     {
         String piechart_query = "SELECT 100 - (d2.total * 100.0 / count(*)) as [BIEN SENTADO], d2.total * 100.0 / count(*) as [MAL SENTADO]" +
                 "        FROM datos d1 JOIN ( SELECT timeStamp, count(*) total" +

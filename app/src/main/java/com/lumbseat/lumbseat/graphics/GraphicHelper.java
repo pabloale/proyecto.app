@@ -15,6 +15,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.lumbseat.lumbseat.HistoricosActivity;
 import com.lumbseat.lumbseat.MainActivity;
 
 import java.util.ArrayList;
@@ -62,18 +63,18 @@ public class GraphicHelper {
 
         configuratedPieChart.setUsePercentValues(true);
 
-        //ArrayList<Entry> yvalues = PieChartGdh.GetEntriesData(db);
+        ArrayList<Entry> yvalues = PieChartGdh.GetEntriesData(db);
 
-        //ArrayList<String> xVals = PieChartGdh.GetLabelsData(db);
+        ArrayList<String> xVals = PieChartGdh.GetLabelsData(db);
 
-        ArrayList<Entry> yvalues = new ArrayList<Entry>();
+        /*ArrayList<Entry> yvalues = new ArrayList<Entry>();
         yvalues.add(new Entry(35f, 0));
         yvalues.add(new Entry(75f, 1));
 
         ArrayList<String> xVals = new ArrayList<String>();
         xVals.add("BIEN SENTADO");
         xVals.add("MAL SENTADO");
-
+*/
         PieDataSet dataSet = new PieDataSet(yvalues, "");
         final int[] ROJOVERDE = {Color.rgb(87, 193, 75), Color.rgb(209, 87, 87)};
         dataSet.setColors(ROJOVERDE);
@@ -91,6 +92,41 @@ public class GraphicHelper {
         configuratedPieChart.setTransparentCircleRadius(30f);
         configuratedPieChart.setHoleRadius(25f);
         configuratedPieChart.setOnChartValueSelectedListener(mainActivity);
+        configuratedPieChart.setDrawSliceText(false);
+        configuratedPieChart.setDescriptionColor(Color.BLACK);
+        configuratedPieChart.animateXY(2000, 2000);
+
+        return configuratedPieChart;
+    }
+
+    public static PieChart configurateHistoricPieChart(PieChart originalPieChart, HistoricosActivity historicosActivity, SQLiteDatabase db)
+    {
+        PieChartHistoricDataHelper PieChartGdh = new PieChartHistoricDataHelper(db);
+        PieChart configuratedPieChart = originalPieChart;
+
+        configuratedPieChart.setUsePercentValues(true);
+
+        ArrayList<Entry> yvalues = PieChartGdh.GetEntriesData(db);
+
+        ArrayList<String> xVals = PieChartGdh.GetLabelsData(db);
+
+        PieDataSet dataSet = new PieDataSet(yvalues, "");
+        final int[] ROJOVERDE = {Color.rgb(87, 193, 75), Color.rgb(209, 87, 87)};
+        dataSet.setColors(ROJOVERDE);
+
+        PieData data = new PieData(xVals, dataSet);
+        data.setValueFormatter(new PercentFormatter());
+        data.setValueTextSize(13f);
+        data.setValueTextColor(Color.WHITE);
+
+        configuratedPieChart.setData(data);
+        configuratedPieChart.setDescription("Postura corporal histórica");
+        configuratedPieChart.setDescriptionTextSize(12f);
+        configuratedPieChart.setHoleColor(android.R.color.transparent);
+        configuratedPieChart.setDrawHoleEnabled(true);
+        configuratedPieChart.setTransparentCircleRadius(30f);
+        configuratedPieChart.setHoleRadius(25f);
+        configuratedPieChart.setOnChartValueSelectedListener(historicosActivity);
         configuratedPieChart.setDrawSliceText(false);
         configuratedPieChart.setDescriptionColor(Color.BLACK);
         configuratedPieChart.animateXY(2000, 2000);
