@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -20,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -52,18 +55,20 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class BackupActivity extends Activity {
 
     private static final String TAG = "drive_lumbseat";
-    private static final int REQUEST_CODE_RESOLUTION = 3;
-    public static DriveFile mfile;
     private static final String DATABASE_PATH = "/data/user/0/com.lumbseat.lumbseat/databases/bd_datos";
     private static final File DATA_DIRECTORY_DATABASE = new File(DATABASE_PATH);
     private static final String MIME_TYPE = "application/x-sqlite-3";
     private static final int REQUEST_DB_UPLOADER = 2;
 
-    private Bitmap mBitmapToSave;
+    private SharedPreferences myPreferences;
+    private TextView tvDiaBk;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -101,6 +106,11 @@ public class BackupActivity extends Activity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_backup);
         navigation.setItemTextColor(ColorStateList.valueOf(Color.WHITE));
+
+
+        myPreferences = PreferenceManager.getDefaultSharedPreferences(BackupActivity.this);
+        tvDiaBk = (TextView) findViewById(R.id.tvDiaBk);
+        tvDiaBk.setText(myPreferences.getString("FECHAULTIMOBACKUP", "-"));
 
         Button btnBackup = findViewById(R.id.btnBackup);
         btnBackup.setOnClickListener(new View.OnClickListener() {
@@ -213,6 +223,15 @@ public class BackupActivity extends Activity {
                 Log.i(TAG, "Upload file request");
                 // Called after a file is saved to Drive.
                 if (resultCode == RESULT_OK) {
+
+                    Date cDate = new Date();
+                    String fechaHoy = new SimpleDateFormat("dd/MM/yyyy").format(cDate);
+
+                    SharedPreferences.Editor myEditor = myPreferences.edit();
+                    myEditor.putString("FECHAULTIMOBACKUP",fechaHoy);
+                    myEditor.commit();
+                    tvDiaBk.setText(fechaHoy);
+
                     Log.i(TAG, "DB file successfully saved.");
                     Toast.makeText(BackupActivity.this,"Sus datos han sido resguardados",Toast.LENGTH_SHORT).show();
                 }else if(resultCode == RESULT_CANCELED){

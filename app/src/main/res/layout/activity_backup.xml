@@ -42,7 +42,8 @@
             android:layout_marginTop="127dp"
             android:text="Podrás realizar un respaldo o restaurarlo, para no perder tus estadísticas y tener un mejor seguimiento de tu postura."
             android:textColor="#7D3704"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:id="@+id/texto"/>
 
         <Button
             android:id="@+id/btnBackup"
@@ -73,15 +74,27 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/tvLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/texto"
+            android:layout_alignTop="@+id/tvDiaBk"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Último respaldo realizado el día:"
+            android:textColor="#7D3704" />
+
+        <TextView
+            android:id="@+id/tvDiaBk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="99dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="89dp"
+            android:layout_marginEnd="45dp"
             android:fontFamily="@font/roboto_bold"
-            android:text="Último respaldo realizado el día: 15/09/2018"
+            android:text=""
             android:textColor="#7D3704" />
+
 
     </RelativeLayout>
 
