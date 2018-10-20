@@ -95,7 +95,6 @@
             android:text=""
             android:textColor="#7D3704" />
 
-
     </RelativeLayout>
 
     <android.support.design.widget.BottomNavigationView

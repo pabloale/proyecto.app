@@ -112,5 +112,6 @@
     <string name="bHasta">+</string>
     <string name="bDesde">+</string>
     <string name="internet_error">Debe tener conectividad a Internet para poder realizar el Backup.</string>
+    <string name="internet_error_restore">Debe tener conexión a internet para poder realizar un restore de sus datos.</string>
 
 </resources>

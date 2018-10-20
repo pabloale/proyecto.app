@@ -67,14 +67,14 @@ public class GraphicHelper {
 
         ArrayList<String> xVals = PieChartGdh.GetLabelsData(db);
 
-        /*ArrayList<Entry> yvalues = new ArrayList<Entry>();
-        yvalues.add(new Entry(35f, 0));
-        yvalues.add(new Entry(75f, 1));
+       /*ArrayList<Entry> yvalues = new ArrayList<Entry>();
+       yvalues.add(new Entry(35f, 0));
+       yvalues.add(new Entry(75f, 1));
 
-        ArrayList<String> xVals = new ArrayList<String>();
-        xVals.add("BIEN SENTADO");
-        xVals.add("MAL SENTADO");*/
-
+       ArrayList<String> xVals = new ArrayList<String>();
+       xVals.add("BIEN SENTADO");
+       xVals.add("MAL SENTADO");
+*/
         PieDataSet dataSet = new PieDataSet(yvalues, "");
         final int[] ROJOVERDE = {Color.rgb(87, 193, 75), Color.rgb(209, 87, 87)};
         dataSet.setColors(ROJOVERDE);
@@ -99,9 +99,9 @@ public class GraphicHelper {
         return configuratedPieChart;
     }
 
-    public static PieChart configurateHistoricPieChart(PieChart originalPieChart, HistoricosActivity historicosActivity, SQLiteDatabase db)
+    public static PieChart configurateHistoricPieChart(PieChart originalPieChart, HistoricosActivity historicosActivity, String beginDate, String endDate, SQLiteDatabase db)
     {
-        PieChartHistoricDataHelper PieChartGdh = new PieChartHistoricDataHelper(db);
+        PieChartHistoricDataHelper PieChartGdh = new PieChartHistoricDataHelper(beginDate, endDate, db);
         PieChart configuratedPieChart = originalPieChart;
 
         configuratedPieChart.setUsePercentValues(true);
@@ -135,3 +135,4 @@ public class GraphicHelper {
     }
 
 }
+
