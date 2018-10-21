@@ -78,7 +78,7 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
         navigation.setItemTextColor(ColorStateList.valueOf(Color.WHITE));
 
         SQLiteConnectionHelper conn = new SQLiteConnectionHelper(this, Utilities.BASE_DATOS, null, 1);
-        SQLiteDatabase db = conn.getWritableDatabase();
+        /*SQLiteDatabase db = conn.getWritableDatabase();
 
         //db.delete(Utilities.TABLA_DATOS, null, null);
 
@@ -93,7 +93,7 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
             values.put(Utilities.CAMPO_SENS_RESISTIVO_ADEL_IZQ, 3.43);
             values.put(Utilities.CAMPO_SENS_DIST_LUMBAR, 1);
             values.put(Utilities.CAMPO_SENS_DIST_CERVICAL, 1);
-            values.put(Utilities.CAMPO_BIEN_SENTADO, 1);
+            values.put(Utilities.CAMPO_BIEN_SENTADO, 0);
             values.put(Utilities.CAMPO_MAL_ABAJO_LEJOS, 1);
             values.put(Utilities.CAMPO_MAL_ARRIBA_LEJOS, 1);
             values.put(Utilities.CAMPO_MAL_SENTADO_DER, 1);
@@ -106,7 +106,7 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
         }
 
         //Toast.makeText(getApplicationContext(),"ID: "+ idResultante,Toast.LENGTH_SHORT).show();
-        db.close();
+        db.close();*/
 
         SQLiteDatabase db2 = conn.getReadableDatabase();
         /*path = db2.getPath().toString();
