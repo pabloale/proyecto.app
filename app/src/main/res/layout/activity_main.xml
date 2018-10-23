@@ -23,10 +23,10 @@
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/piechart"
             android:layout_width="281dp"
-            android:layout_height="195dp"
+            android:layout_height="190dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="44dp" />
+            android:layout_marginBottom="62dp" />
 
         <Button
             android:id="@+id/btnHistorico"

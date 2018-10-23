@@ -23,9 +23,9 @@ import java.util.ArrayList;
 public class BarChartDataHelper {
 
     final private String BARCHART_QUERY = "SELECT SUBSTR(timeStamp,6,5), percent FROM(SELECT d1.timeStamp, d2.total * 100.0 / count(*) as percent" +
-            "        FROM datos d1 LEFT JOIN ( SELECT timeStamp, count(*) total" +
+            "        FROM datos d1 LEFT JOIN ( SELECT SUBSTR(timeStamp,1,10) timeStamp, count(*) total" +
             "                             FROM datos" +
-            "                             WHERE bienSentado = 1 GROUP BY timeStamp) d2" +
+            "                             WHERE bienSentado = 1 GROUP BY SUBSTR(timeStamp,1,10)) d2" +
             "        ON SUBSTR(d1.timeStamp,1,10) = SUBSTR(d2.timeStamp,1,10) GROUP BY SUBSTR(d1.timeStamp,1,10)" +
             "        ORDER BY d1.timeStamp desc" +
             "        LIMIT 7)" +
