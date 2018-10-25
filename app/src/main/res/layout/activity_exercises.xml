@@ -61,33 +61,92 @@
             android:orientation="horizontal"
             tools:layout_editor_absoluteY="240dp">
 
-            <ImageView
+        <LinearLayout
+            android:layout_width="283dp"
+            android:layout_height="250dp"
+            android:orientation="vertical">
+        <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="283dp"
                 android:layout_height="167dp"
-                android:layout_marginBottom="151dp"
+                android:layout_marginBottom="3dp"
                 android:src="@drawable/streching"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"/>
+            <TextView
+                android:layout_width="283dp"
+                android:layout_height="50dp"
+                android:text="Ejercicios típicos de stretching"
+                android:textColor="#FFFFFF"
+                android:textAlignment="center"
+                android:textSize="16sp"/>
+            </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="283dp"
+                android:layout_height="250dp"
+                android:orientation="vertical">
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="283dp"
                 android:layout_height="167dp"
-                android:layout_marginBottom="151dp"
-                android:src="@drawable/streching"
+                android:layout_marginBottom="3dp"
+                android:src="@drawable/image_video_2"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"/>
+            <TextView
+                android:layout_width="283dp"
+                android:layout_height="50dp"
+                android:text="Para hacer sentado"
+                android:textColor="#FFFFFF"
+                android:textAlignment="center"
+                android:textSize="16sp"/>
+        </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="283dp"
+                android:layout_height="250dp"
+                android:orientation="vertical">
             <ImageView
                 android:id="@+id/imageView3"
                 android:layout_width="283dp"
                 android:layout_height="167dp"
-                android:layout_marginBottom="151dp"
-                android:src="@drawable/streching"
+                android:layout_marginBottom="3dp"
+                android:src="@drawable/image_video_3"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"/>
+            <TextView
+                android:layout_width="283dp"
+                android:layout_height="50dp"
+                android:text="Stretching de oficina"
+                android:textColor="#FFFFFF"
+                android:textAlignment="center"
+                android:textSize="16sp"/>
         </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="283dp"
+                android:layout_height="250dp"
+                android:orientation="vertical">
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="283dp"
+                android:layout_height="167dp"
+                android:layout_marginBottom="3dp"
+                android:src="@drawable/image_video_4"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
+        <TextView
+            android:layout_width="283dp"
+            android:layout_height="50dp"
+            android:text="Ejercicios avanzados"
+            android:textColor="#FFFFFF"
+            android:textAlignment="center"
+            android:textSize="16sp"/>
+            </LinearLayout>
+            
+    </LinearLayout>
+
     </HorizontalScrollView>
 
     <android.support.design.widget.BottomNavigationView

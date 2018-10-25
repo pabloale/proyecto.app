@@ -61,6 +61,30 @@ public class ExercisesActivity extends Activity {
                 watchYoutubeVideo("duVd5lW_G9k");
             }
         });
+
+        ImageView imView2 = (ImageView)findViewById(R.id.imageView2);
+        imView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                watchYoutubeVideo("NlHYLMQELp0&feature=youtu.be&t=27");
+            }
+        });
+
+        ImageView imView3 = (ImageView)findViewById(R.id.imageView3);
+        imView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                watchYoutubeVideo("cXqdtUkmPpQ&feature=youtu.be&t=17");
+            }
+        });
+
+        ImageView imView4 = (ImageView)findViewById(R.id.imageView4);
+        imView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                watchYoutubeVideo("Zg7U9sySQt8&feature=youtu.be&t=14");
+            }
+        });
     }
 
     public void watchYoutubeVideo(String id) {

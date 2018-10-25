@@ -67,14 +67,6 @@ public class GraphicHelper {
 
         ArrayList<String> xVals = PieChartGdh.GetLabelsData(db);
 
-       /*ArrayList<Entry> yvalues = new ArrayList<Entry>();
-       yvalues.add(new Entry(35f, 0));
-       yvalues.add(new Entry(75f, 1));
-
-       ArrayList<String> xVals = new ArrayList<String>();
-       xVals.add("BIEN SENTADO");
-       xVals.add("MAL SENTADO");
-*/
         PieDataSet dataSet = new PieDataSet(yvalues, "");
         final int[] ROJOVERDE = {Color.rgb(87, 193, 75), Color.rgb(209, 87, 87)};
         dataSet.setColors(ROJOVERDE);
