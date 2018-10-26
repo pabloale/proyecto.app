@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
@@ -50,6 +51,8 @@ public class HistoricosActivity extends FragmentActivity implements OnChartValue
     Button btnVer;
     EditText editTextDesde;
     EditText editTextHasta;
+    PieChart pieChart;
+    BarChart barChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +97,12 @@ public class HistoricosActivity extends FragmentActivity implements OnChartValue
 
         editTextDesde = (EditText) findViewById(R.id.editTextDesde);
         editTextHasta = (EditText) findViewById(R.id.editTextHasta);
+
+        pieChart = (PieChart) findViewById(R.id.piechartHistorico);
+        barChart = (BarChart) findViewById(R.id.barchartHistorico);
+
+        pieChart.setNoDataText("");
+        barChart.setNoDataText("");
 
         SQLiteConnectionHelper conn = new SQLiteConnectionHelper(this, Utilities.BASE_DATOS, null, 1);
         db = conn.getWritableDatabase();
@@ -202,8 +211,9 @@ public class HistoricosActivity extends FragmentActivity implements OnChartValue
             Calendar today = Calendar.getInstance();
             Date todayDate = today.getTime();
 
-            PieChart pieChart = (PieChart) findViewById(R.id.piechartHistorico);
             GraphicHelper.configurateHistoricPieChart(pieChart, this, sdf.format(todayDate), sdf.format(todayDate), db);
+
+            GraphicHelper.configurateHistoricBarChart(barChart, sdf.format(todayDate), sdf.format(todayDate), db);
         }
     }
 

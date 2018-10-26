@@ -3,6 +3,7 @@ package com.lumbseat.lumbseat.graphics;
 import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.graphics.Paint;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -124,6 +125,39 @@ public class GraphicHelper {
         configuratedPieChart.animateXY(2000, 2000);
 
         return configuratedPieChart;
+    }
+
+    public static BarChart configurateHistoricBarChart(BarChart originalBarchart, String beginDate, String endDate, SQLiteDatabase db)
+    {
+        BarChart configuratedBarChart = originalBarchart;
+
+        EmptyDateFiller edf = new EmptyDateFiller(db);
+
+        BarChartDataHelper barChartDataHelper = new BarChartDataHelper(db);
+        ArrayList<BarEntry> entries = barChartDataHelper.GetEntriesData();
+        ArrayList<String> labels = barChartDataHelper.GetLabelsData();
+
+        BarDataSet barDataSet = new BarDataSet(entries, "PORCENTAJE BIEN SENTADO");
+        BarData dataBar = new BarData(labels, barDataSet);
+
+        configuratedBarChart.setData(dataBar); // set the data and list of labels into chart
+        configuratedBarChart.setDescription(" ");
+
+        final int[] LUMBSEAT_COLORS = {
+                Color.rgb(15, 60, 79), Color.rgb(18, 70, 91), Color.rgb(22, 88, 114),
+                Color.rgb(26, 98, 124), Color.rgb(30, 116, 140), Color.rgb(34, 136, 156),
+                Color.rgb(38, 156, 170)
+        };
+        barDataSet.setColors(LUMBSEAT_COLORS);
+
+        configuratedBarChart.animateY(2000);
+        configuratedBarChart.getAxisLeft().setAxisMinValue(0);
+        configuratedBarChart.getAxisLeft().setAxisMaxValue(110);
+
+        configuratedBarChart.getAxisRight().setEnabled(false);
+        configuratedBarChart.setDrawGridBackground(false);
+
+        return configuratedBarChart;
     }
 
 }
