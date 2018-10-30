@@ -12,8 +12,12 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.lumbseat.lumbseat.dataBase.SQLiteConnectionHelper;
+import com.lumbseat.lumbseat.utilities.Utilities;
 
 public class ExercisesActivity extends Activity {
 
@@ -85,6 +89,20 @@ public class ExercisesActivity extends Activity {
                 watchYoutubeVideo("Zg7U9sySQt8&feature=youtu.be&t=14");
             }
         });
+
+        Button btnTruncate = findViewById(R.id.btnTruncate);
+        btnTruncate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                truncateDataBase();
+            }
+        });
+    }
+
+    private void truncateDataBase() {
+        SQLiteConnectionHelper conn = new SQLiteConnectionHelper(this, Utilities.BASE_DATOS, null, 1);
+        SQLiteDatabase db = conn.getWritableDatabase();
+        db.delete(Utilities.TABLA_DATOS, null, null);
     }
 
     public void watchYoutubeVideo(String id) {
