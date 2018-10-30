@@ -204,6 +204,8 @@ public class HistoricosActivity extends FragmentActivity implements OnChartValue
         {
             PieChart pieChart = (PieChart) findViewById(R.id.piechartHistorico);
             GraphicHelper.configurateHistoricPieChart(pieChart, this, beginDate, endDate, db);
+
+            GraphicHelper.configurateHistoricBarChart(barChart, beginDate, endDate, db);
         }
         else
         {

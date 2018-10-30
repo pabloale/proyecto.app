@@ -133,9 +133,9 @@ public class GraphicHelper {
 
         EmptyDateFiller edf = new EmptyDateFiller(db);
 
-        BarChartDataHelper barChartDataHelper = new BarChartDataHelper(db);
-        ArrayList<BarEntry> entries = barChartDataHelper.GetEntriesData();
-        ArrayList<String> labels = barChartDataHelper.GetLabelsData();
+        BarChartHistoricDataHelper barChartDh = new BarChartHistoricDataHelper(beginDate, endDate, db);
+        ArrayList<BarEntry> entries = barChartDh.GetEntriesData();
+        ArrayList<String> labels = barChartDh.GetLabelsData();
 
         BarDataSet barDataSet = new BarDataSet(entries, "PORCENTAJE BIEN SENTADO");
         BarData dataBar = new BarData(labels, barDataSet);
