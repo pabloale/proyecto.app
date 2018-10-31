@@ -10,31 +10,34 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="35dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <ImageView
             android:layout_width="64dp"
             android:layout_height="54dp"
             android:layout_alignBottom="@+id/tvTitulo"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="-1dp"
             android:layout_marginStart="62dp"
+            android:layout_marginBottom="-1dp"
             android:src="@drawable/respaldo_logo_naranja" />
 
         <TextView
             android:id="@+id/tvTitulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:layout_marginEnd="55dp"
+            android:layout_alignParentEnd="true"
             android:layout_marginTop="44dp"
+            android:layout_marginEnd="55dp"
             android:text="Respaldo"
             android:textColor="#AE5519"
             android:textSize="40sp"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/texto"
             android:layout_width="301dp"
             android:layout_height="108dp"
             android:layout_alignParentTop="true"
@@ -42,8 +45,7 @@
             android:layout_marginTop="127dp"
             android:text="Podrás realizar un respaldo o restaurarlo, para no perder tus estadísticas y tener un mejor seguimiento de tu postura."
             android:textColor="#7D3704"
-            android:textSize="20sp"
-            android:id="@+id/texto"/>
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/btnBackup"
@@ -63,8 +65,8 @@
             android:id="@+id/btnRestore"
             android:layout_width="190dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignStart="@+id/btnBackup"
+            android:layout_alignParentBottom="true"
             android:layout_marginBottom="202dp"
             android:background="#a8561e"
             android:fontFamily="@font/roboto_bold"
@@ -87,13 +89,33 @@
             android:id="@+id/tvDiaBk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginBottom="89dp"
+            android:layout_alignParentBottom="true"
             android:layout_marginEnd="45dp"
+            android:layout_marginBottom="89dp"
             android:fontFamily="@font/roboto_bold"
             android:text=""
             android:textColor="#7D3704" />
+
+        <ImageView
+            android:id="@+id/imageViewBackup"
+            android:layout_width="61dp"
+            android:layout_height="48dp"
+            android:layout_alignStart="@+id/texto"
+            android:layout_alignTop="@+id/btnBackup"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="-1dp"
+            android:src="@drawable/backup" />
+
+        <ImageView
+            android:id="@+id/imageViewRestore"
+            android:layout_width="61dp"
+            android:layout_height="48dp"
+            android:layout_alignStart="@+id/texto"
+            android:layout_alignTop="@+id/imageViewBackup"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="60dp"
+            android:src="@drawable/restore" />
 
     </RelativeLayout>
 
