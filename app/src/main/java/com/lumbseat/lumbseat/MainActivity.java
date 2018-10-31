@@ -3,11 +3,14 @@ package com.lumbseat.lumbseat;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.util.Log;
@@ -27,11 +30,18 @@ import com.lumbseat.lumbseat.graphics.GraphicHelper;
 import com.lumbseat.lumbseat.utilities.Utilities;
 
 
-public class MainActivity extends Activity implements OnChartValueSelectedListener {
+public class MainActivity extends Activity implements OnChartValueSelectedListener, Runnable {
 
     final int REQUEST_ENABLE_BT = 1;
     public static BluetoothAdapter mBluetoothAdapter;
     public static String path;
+    SQLiteDatabase db2;
+
+    Context context = this;
+    PieChart pieChart;
+    MainActivity main;
+
+    Handler handler = new Handler();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -108,19 +118,49 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
         //Toast.makeText(getApplicationContext(),"ID: "+ idResultante,Toast.LENGTH_SHORT).show();
         db.close();*/
 
-        SQLiteDatabase db2 = conn.getReadableDatabase();
+        db2 = conn.getReadableDatabase();
         /*path = db2.getPath().toString();
         Toast.makeText(getApplicationContext(),"El path de la base es: "+ path,Toast.LENGTH_LONG).show();*/
 
-
+        main = MainActivity.this;
 
         //GRAFICO DE BARRAS
         BarChart barChart = (BarChart) findViewById(R.id.barchart);
         GraphicHelper.configurateBarChart(barChart, db2);
 
         //GRAFICO DE TORTA
-        PieChart pieChart = (PieChart) findViewById(R.id.piechart);
+        pieChart = (PieChart) findViewById(R.id.piechart);
         GraphicHelper.configuratePieChart(pieChart,this, db2);
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                SQLiteConnectionHelper conn = new SQLiteConnectionHelper(context, Utilities.BASE_DATOS, null, 1);
+                db2 = conn.getReadableDatabase();
+                GraphicHelper.configuratePieChart(pieChart,main, db2);
+                db2.close();
+                handler.postDelayed(this, 100);
+            }
+        }, 100);
+
+
+        /*Runnable refresh = new Runnable() {
+            @Override
+            public void run() {
+                new BackgroundTask().execute();
+                //Se ejecuta cada 1 segundo el codigo del metodo run de la interfaz Runnable refresh
+                handler.postDelayed(this, 1000);
+            }
+        };*/
+        //Se ejecuta una vez el codigo del metodo run de la interfaz Runnable refresh
+        //handler.postDelayed(refresh, 1000);
+
 
         //BLUETOOTH
         mBluetoothAdapter  = BluetoothAdapter.getDefaultAdapter();
@@ -162,6 +202,61 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
         Log.i("PieChart", "nothing selected");
     }
 
+    @Override
+    public void run() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        SQLiteConnectionHelper conn = new SQLiteConnectionHelper(this, Utilities.BASE_DATOS, null, 1);
+        db2 = conn.getReadableDatabase();
+        GraphicHelper.configuratePieChart(pieChart,this, db2);
+        db2.close();
+    }
 
+    private void hilos() {
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                SQLiteConnectionHelper conn = new SQLiteConnectionHelper(context, Utilities.BASE_DATOS, null, 1);
+                db2 = conn.getReadableDatabase();
+                GraphicHelper.configuratePieChart(pieChart,main, db2);
+                db2.close();
+            }
+        }).start();
+    }
+
+    private class BackgroundTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            SQLiteConnectionHelper conn = new SQLiteConnectionHelper(context, Utilities.BASE_DATOS, null, 1);
+            db2 = conn.getReadableDatabase();
+            GraphicHelper.configuratePieChart(pieChart,MainActivity.this, db2);
+            db2.close();
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+        }
+    }
 
 }

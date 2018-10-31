@@ -111,10 +111,10 @@
             android:id="@+id/imageViewRestore"
             android:layout_width="61dp"
             android:layout_height="48dp"
-            android:layout_alignStart="@+id/texto"
-            android:layout_alignTop="@+id/imageViewBackup"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="60dp"
+            android:layout_alignStart="@+id/imageViewBackup"
+            android:layout_alignParentBottom="true"
+            android:layout_alignLeft="@+id/btnBackup"
+            android:layout_marginBottom="202dp"
             android:src="@drawable/restore" />
 
     </RelativeLayout>

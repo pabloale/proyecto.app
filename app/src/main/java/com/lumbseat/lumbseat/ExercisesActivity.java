@@ -68,7 +68,7 @@ public class ExercisesActivity extends Activity {
         });
 
         ImageView imView2 = (ImageView)findViewById(R.id.imageView2);
-        imView.setOnClickListener(new View.OnClickListener() {
+        imView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 watchYoutubeVideo("NlHYLMQELp0&feature=youtu.be&t=27");
@@ -76,7 +76,7 @@ public class ExercisesActivity extends Activity {
         });
 
         ImageView imView3 = (ImageView)findViewById(R.id.imageView3);
-        imView.setOnClickListener(new View.OnClickListener() {
+        imView3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 watchYoutubeVideo("cXqdtUkmPpQ&feature=youtu.be&t=17");
@@ -84,7 +84,7 @@ public class ExercisesActivity extends Activity {
         });
 
         ImageView imView4 = (ImageView)findViewById(R.id.imageView4);
-        imView.setOnClickListener(new View.OnClickListener() {
+        imView4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 watchYoutubeVideo("Zg7U9sySQt8&feature=youtu.be&t=14");
@@ -107,9 +107,8 @@ public class ExercisesActivity extends Activity {
     }
 
     public void watchYoutubeVideo(String id) {
-        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
-        Intent webIntent = new Intent(Intent.ACTION_VIEW,
-        Uri.parse("http://www.youtube.com/watch?v=" + id));
+        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + id));
+        Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + id));
         try {
             startActivity(appIntent);
         } catch (ActivityNotFoundException ex) {

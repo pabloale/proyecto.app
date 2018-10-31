@@ -93,7 +93,7 @@ public class BackupActivity extends Activity {
         tvDiaBk.setText(myPreferences.getString("FECHAULTIMOBACKUP", "-"));
 
         Button btnBackup = findViewById(R.id.btnBackup);
-        btnBackup.setOnClickListener(new View.OnClickListener() {
+        /*btnBackup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //CHEQUEO LA CONECTIVIDAD CON INTERNET
@@ -109,7 +109,7 @@ public class BackupActivity extends Activity {
                 }
             }
         });
-
+        */
         Button btnRestore = findViewById(R.id.btnRestore);
         btnRestore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,7 +133,7 @@ public class BackupActivity extends Activity {
     private void getDbFromDrive() {
 
     }
-
+/*
     private void guardarBdEnDrive() {
         LoginActivity.mDriveResourceClient
             .createContents()
@@ -242,5 +242,5 @@ public class BackupActivity extends Activity {
                 }
                 break;
         }
-    }
+    }*/
 }
