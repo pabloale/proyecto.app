@@ -39,6 +39,7 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
 
     Context context = this;
     PieChart pieChart;
+    PieChart badPosturePieChart;
     MainActivity main;
 
     Handler handler = new Handler();
@@ -88,35 +89,6 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
         navigation.setItemTextColor(ColorStateList.valueOf(Color.WHITE));
 
         SQLiteConnectionHelper conn = new SQLiteConnectionHelper(this, Utilities.BASE_DATOS, null, 1);
-        /*SQLiteDatabase db = conn.getWritableDatabase();
-
-        //db.delete(Utilities.TABLA_DATOS, null, null);
-
-        ContentValues values = new ContentValues();
-
-        try {
-            values.put(Utilities.CAMPO_ID, 1);
-            values.put(Utilities.CAMPO_TIMESTAMP, "2018-10-20 12:33:50.698023");
-            values.put(Utilities.CAMPO_SENS_RESISTIVO_ATRAS_DER, 3.50 );
-            values.put(Utilities.CAMPO_SENS_RESISTIVO_ATRAS_IZQ, 3.50);
-            values.put(Utilities.CAMPO_SENS_RESISTIVO_ADEL_DER, 3.41);
-            values.put(Utilities.CAMPO_SENS_RESISTIVO_ADEL_IZQ, 3.43);
-            values.put(Utilities.CAMPO_SENS_DIST_LUMBAR, 1);
-            values.put(Utilities.CAMPO_SENS_DIST_CERVICAL, 1);
-            values.put(Utilities.CAMPO_BIEN_SENTADO, 0);
-            values.put(Utilities.CAMPO_MAL_ABAJO_LEJOS, 1);
-            values.put(Utilities.CAMPO_MAL_ARRIBA_LEJOS, 1);
-            values.put(Utilities.CAMPO_MAL_SENTADO_DER, 1);
-            values.put(Utilities.CAMPO_MAL_SENTADO_IZQ, 1);
-
-            db.insert(Utilities.TABLA_DATOS, Utilities.CAMPO_ID, values);
-
-        } catch (Exception e) {
-
-        }
-
-        //Toast.makeText(getApplicationContext(),"ID: "+ idResultante,Toast.LENGTH_SHORT).show();
-        db.close();*/
 
         db2 = conn.getReadableDatabase();
         /*path = db2.getPath().toString();
@@ -132,35 +104,20 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
         pieChart = (PieChart) findViewById(R.id.piechart);
         GraphicHelper.configuratePieChart(pieChart,this, db2);
 
+        //GRAFICO DE TORTA DE MALAS POSTURAS
+        badPosturePieChart = (PieChart) findViewById(R.id.badposturepiechart);
+        GraphicHelper.configurateBadPosturePieChart(badPosturePieChart,this, db2);
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 SQLiteConnectionHelper conn = new SQLiteConnectionHelper(context, Utilities.BASE_DATOS, null, 1);
                 db2 = conn.getReadableDatabase();
                 GraphicHelper.configuratePieChart(pieChart,main, db2);
                 db2.close();
-                handler.postDelayed(this, 100);
+                handler.postDelayed(this, 200);
             }
         }, 100);
-
-
-        /*Runnable refresh = new Runnable() {
-            @Override
-            public void run() {
-                new BackgroundTask().execute();
-                //Se ejecuta cada 1 segundo el codigo del metodo run de la interfaz Runnable refresh
-                handler.postDelayed(this, 1000);
-            }
-        };*/
-        //Se ejecuta una vez el codigo del metodo run de la interfaz Runnable refresh
-        //handler.postDelayed(refresh, 1000);
-
 
         //BLUETOOTH
         mBluetoothAdapter  = BluetoothAdapter.getDefaultAdapter();
@@ -229,34 +186,6 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
                 db2.close();
             }
         }).start();
-    }
-
-    private class BackgroundTask extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            SQLiteConnectionHelper conn = new SQLiteConnectionHelper(context, Utilities.BASE_DATOS, null, 1);
-            db2 = conn.getReadableDatabase();
-            GraphicHelper.configuratePieChart(pieChart,MainActivity.this, db2);
-            db2.close();
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-
-        }
     }
 
 }

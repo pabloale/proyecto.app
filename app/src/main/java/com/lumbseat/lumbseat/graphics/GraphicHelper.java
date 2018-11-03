@@ -160,5 +160,40 @@ public class GraphicHelper {
         return configuratedBarChart;
     }
 
+    public static PieChart configurateBadPosturePieChart(PieChart originalPieChart, MainActivity mainActivity, SQLiteDatabase db)
+    {
+        PieChartBadPostureDataHelper PieChartGdh = new PieChartBadPostureDataHelper(db);
+        PieChart configuratedPieChart = originalPieChart;
+
+        configuratedPieChart.setUsePercentValues(true);
+
+        ArrayList<Entry> yvalues = PieChartGdh.GetEntriesData(db);
+
+        ArrayList<String> xVals = PieChartGdh.GetLabelsData(db);
+
+        PieDataSet dataSet = new PieDataSet(yvalues, "");
+        final int[] ROJOS = {Color.rgb(87, 193, 75), Color.rgb(93, 170, 65), Color.rgb(113, 130, 84)};
+        dataSet.setColors(ROJOS);
+
+        PieData data = new PieData(xVals, dataSet);
+        data.setValueFormatter(new PercentFormatter());
+        data.setValueTextSize(13f);
+        data.setValueTextColor(Color.WHITE);
+
+        configuratedPieChart.setData(data);
+        configuratedPieChart.setDescription("Postura corporal diaria");
+        configuratedPieChart.setDescriptionTextSize(12f);
+        configuratedPieChart.setHoleColor(android.R.color.transparent);
+        configuratedPieChart.setDrawHoleEnabled(true);
+        configuratedPieChart.setTransparentCircleRadius(30f);
+        configuratedPieChart.setHoleRadius(25f);
+        configuratedPieChart.setOnChartValueSelectedListener(mainActivity);
+        configuratedPieChart.setDrawSliceText(false);
+        configuratedPieChart.setDescriptionColor(Color.BLACK);
+        configuratedPieChart.animateXY(0, 0);
+
+        return configuratedPieChart;
+    }
+
 }
 
