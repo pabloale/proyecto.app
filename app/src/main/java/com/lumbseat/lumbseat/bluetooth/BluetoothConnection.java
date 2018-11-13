@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lumbseat.lumbseat.ConfigurationActivity;
 import com.lumbseat.lumbseat.MainActivity;
 import com.lumbseat.lumbseat.R;
 
@@ -42,7 +43,7 @@ public class BluetoothConnection extends Activity {
         deviceList = devicelist;
 
         //Consulta de dispositivos sincronizados
-        Set<BluetoothDevice> pairedDevices = MainActivity.mBluetoothAdapter.getBondedDevices();
+        Set<BluetoothDevice> pairedDevices = ConfigurationActivity.mBluetoothAdapter.getBondedDevices();
         // If there are paired devices
         if (pairedDevices.size() > 0) {
             // Loop through paired devices
@@ -66,12 +67,20 @@ public class BluetoothConnection extends Activity {
             // Get the device MAC address, the last 17 chars in the View
             String info = ((TextView) v).getText().toString();
             String address = info.substring(info.length() - 17);
-            showToastMethod(contexto,address);
-            mDevice = MainActivity.mBluetoothAdapter.getRemoteDevice(address);
+            mDevice = ConfigurationActivity.mBluetoothAdapter.getRemoteDevice(address);
 
             BluetoothSerialService bss = new BluetoothSerialService(contexto,mHandler);
-            bss.start();
-            bss.connect(mDevice);
+            try {
+                bss.start();
+                bss.connect(mDevice);
+                if(bss.getState() == bss.STATE_CONNECTED){
+                    showToastMethod(contexto,"Conectado con dispositivo " + info);
+                }else{
+                    showToastMethod(contexto,"No se pudo conectar con el dispositivo " + info);
+                }
+            }catch(Exception ex){
+                showToastMethod(contexto,ex.getMessage());
+            }
         }
     };
 

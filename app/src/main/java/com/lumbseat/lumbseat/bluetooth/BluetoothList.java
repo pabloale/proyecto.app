@@ -60,7 +60,6 @@ public class BluetoothList extends Activity {
 
                     String[] strParse = readMessage.split(";");
 
-
                     SQLiteConnectionHelper conn = new SQLiteConnectionHelper(BluetoothList.this, Utilities.BASE_DATOS, null, 1);
                     SQLiteDatabase db = conn.getWritableDatabase();
                     ContentValues values = new ContentValues();

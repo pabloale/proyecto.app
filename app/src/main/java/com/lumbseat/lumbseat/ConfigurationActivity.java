@@ -1,6 +1,7 @@
 package com.lumbseat.lumbseat;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
@@ -28,9 +29,13 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.lumbseat.lumbseat.bluetooth.BluetoothList;
 import com.lumbseat.lumbseat.bluetooth.BluetoothSerialService;
 
 public class ConfigurationActivity extends Activity {
+
+    final int REQUEST_ENABLE_BT = 1;
+    public static BluetoothAdapter mBluetoothAdapter;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -60,6 +65,7 @@ public class ConfigurationActivity extends Activity {
 
     private GoogleApiClient mGoogleApiClient;
     private Button btnSignOut;
+    private Button btnBluetooth;
 
     boolean boolLed;
     boolean boolVibrador;
@@ -156,5 +162,40 @@ public class ConfigurationActivity extends Activity {
                         });
             }
         });
+
+
+        btnBluetooth = findViewById(R.id.btnBluetooth);
+        btnBluetooth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //BLUETOOTH
+                mBluetoothAdapter  = BluetoothAdapter.getDefaultAdapter();
+                String status = "";
+                if (mBluetoothAdapter == null) {
+                    status = "Este dispositivo no soporta Bluetooth";
+                }else{
+                    if (!mBluetoothAdapter.isEnabled()) {
+                        Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                        startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+                    }else{
+                        Intent i = new Intent(ConfigurationActivity.this, BluetoothList.class);
+                        startActivity(i);
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            super.onActivityResult(requestCode, resultCode, data);
+            if (requestCode == REQUEST_ENABLE_BT  && resultCode  == RESULT_OK) {
+                Intent i = new Intent(ConfigurationActivity.this, BluetoothList.class);
+                startActivity(i);
+            }
+        } catch (Exception ex) {
+            Toast.makeText(ConfigurationActivity.this, ex.toString(), Toast.LENGTH_SHORT).show();
+        }
     }
 }

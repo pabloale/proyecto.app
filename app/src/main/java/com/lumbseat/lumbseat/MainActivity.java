@@ -32,8 +32,6 @@ import com.lumbseat.lumbseat.utilities.Utilities;
 
 public class MainActivity extends Activity implements OnChartValueSelectedListener, Runnable {
 
-    final int REQUEST_ENABLE_BT = 1;
-    public static BluetoothAdapter mBluetoothAdapter;
     public static String path;
     SQLiteDatabase db2;
 
@@ -119,30 +117,7 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
             }
         }, 100);
 
-        //BLUETOOTH
-        mBluetoothAdapter  = BluetoothAdapter.getDefaultAdapter();
-        String status = "";
-        if (mBluetoothAdapter == null) {
-            status = "Este dispositivo no soporta Bluetooth";
-        }else{
-            if (!mBluetoothAdapter.isEnabled()) {
-                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-            }
-        }
-    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        try {
-            super.onActivityResult(requestCode, resultCode, data);
-            if (requestCode == REQUEST_ENABLE_BT  && resultCode  == RESULT_OK) {
-                Intent i = new Intent(MainActivity.this, BluetoothList.class);
-                startActivity(i);
-            }
-        } catch (Exception ex) {
-            Toast.makeText(MainActivity.this, ex.toString(), Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override

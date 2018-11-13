@@ -93,7 +93,7 @@ public class BackupActivity extends Activity {
         tvDiaBk.setText(myPreferences.getString("FECHAULTIMOBACKUP", "-"));
 
         Button btnBackup = findViewById(R.id.btnBackup);
-        /*btnBackup.setOnClickListener(new View.OnClickListener() {
+        btnBackup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //CHEQUEO LA CONECTIVIDAD CON INTERNET
@@ -109,7 +109,7 @@ public class BackupActivity extends Activity {
                 }
             }
         });
-        */
+
         Button btnRestore = findViewById(R.id.btnRestore);
         btnRestore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,7 +123,7 @@ public class BackupActivity extends Activity {
                             .setMessage(getResources().getString(R.string.internet_error_restore))
                             .setPositiveButton("OK", null).show();
                 }else{
-                    getDbFromDrive();
+                    //getDbFromDrive();
                 }
             }
         });
@@ -131,9 +131,61 @@ public class BackupActivity extends Activity {
 
 
     private void getDbFromDrive() {
+        /*file.open(mGoogleApiClient, DriveFile.MODE_READ_ONLY, null)
+                .setResultCallback(new ResultCallback<DriveApi.DriveContentsResult>() {
+                    @Override
+                    public void onResult(DriveApi.DriveContentsResult result) {
+                        if (!result.getStatus().isSuccess()) {
+                            showErrorDialog();
+                            return;
+                        }
 
+                        // DriveContents object contains pointers
+                        // to the actual byte stream
+                        DriveContents contents = result.getDriveContents();
+                        InputStream input = contents.getInputStream();
+
+                        try {
+                            File file = new File(realm.getPath());
+                            OutputStream output = new FileOutputStream(file);
+                            try {
+                                try {
+                                    byte[] buffer = new byte[4 * 1024]; // or other buffer size
+                                    int read;
+
+                                    while ((read = input.read(buffer)) != -1) {
+                                        output.write(buffer, 0, read);
+                                    }
+                                    output.flush();
+                                } finally {
+                                    output.close();
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } finally {
+                            try {
+                                input.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        Toast.makeText(getApplicationContext(), R.string.activity_backup_drive_message_restart, Toast.LENGTH_LONG).show();
+
+                        // Reboot app
+                        Intent mStartActivity = new Intent(getApplicationContext(), MainActivity.class);
+                        int mPendingIntentId = 123456;
+                        PendingIntent mPendingIntent = PendingIntent.getActivity(getApplicationContext(), mPendingIntentId, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+                        AlarmManager mgr = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+                        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+                        System.exit(0);
+                    }
+                });*/
     }
-/*
+
     private void guardarBdEnDrive() {
         LoginActivity.mDriveResourceClient
             .createContents()
@@ -242,5 +294,5 @@ public class BackupActivity extends Activity {
                 }
                 break;
         }
-    }*/
+    }
 }

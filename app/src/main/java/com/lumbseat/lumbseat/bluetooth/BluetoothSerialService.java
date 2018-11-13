@@ -361,15 +361,13 @@ public class BluetoothSerialService {
 
             SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
 
-
-
             // Keep listening to the InputStream while connected
             while (mState == STATE_CONNECTED) {
                 try {
                     // Read from the InputStream
                     bytes = mmInStream.read(bufferLectura);
-                    // GUARDAR DATOS EN LA BASE DE DATOS
 
+                    // GUARDAR DATOS EN LA BASE DE DATOS
                     // Send the obtained bytes to the UI Activity
                     mHandler.obtainMessage(2, bytes, -1, bufferLectura).sendToTarget();
 
