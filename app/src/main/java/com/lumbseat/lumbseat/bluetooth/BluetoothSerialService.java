@@ -372,7 +372,7 @@ public class BluetoothSerialService {
                     String readMessage = new String(bufferLectura);
                     if(readMessage.isEmpty()){
                         BluetoothList.contadorAlerta = 0;
-                    }                    
+                    }
                     // GUARDAR DATOS EN LA BASE DE DATOS
                     mHandler.obtainMessage(2, bytes, -1, bufferLectura).sendToTarget();
 
