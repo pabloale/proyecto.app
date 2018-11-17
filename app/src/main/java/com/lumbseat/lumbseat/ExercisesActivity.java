@@ -54,6 +54,8 @@ public class ExercisesActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercises);
 
+        MainActivity.contextoActual = this;
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_exercises);

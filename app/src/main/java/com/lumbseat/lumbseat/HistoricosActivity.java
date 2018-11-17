@@ -59,6 +59,8 @@ public class HistoricosActivity extends FragmentActivity implements OnChartValue
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_historicos);
 
+        MainActivity.contextoActual = this;
+
         FloatingActionButton floatingButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
         floatingButton.setOnClickListener(new View.OnClickListener() {
             @Override

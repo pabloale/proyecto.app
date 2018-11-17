@@ -17,6 +17,7 @@
 package com.lumbseat.lumbseat.bluetooth;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -29,6 +30,10 @@ import android.os.Handler;
 
 import com.lumbseat.lumbseat.ConfigurationActivity;
 import com.lumbseat.lumbseat.MainActivity;
+import com.lumbseat.lumbseat.R;
+import com.lumbseat.lumbseat.dataBase.SQLiteConnectionHelper;
+import com.lumbseat.lumbseat.graphics.GraphicHelper;
+import com.lumbseat.lumbseat.utilities.Utilities;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,6 +53,7 @@ public class BluetoothSerialService {
     private static final boolean D = true;
     public static String señal = "OK";
     public static String dataConfiguration = "";
+    private ThreadAlerta alertThread;
 
 
 	private static final UUID SerialPortServiceClass_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -141,8 +147,10 @@ public class BluetoothSerialService {
         // Start the thread to connect with the given device
         mConnectThread = new ConnectThread(device);
         mConnectThread.start();
-        //mConnectThread.run();
         setState(STATE_CONNECTING);
+
+        //alertThread = new ThreadAlerta();
+        //alertThread.start();
     }
 
     /**
@@ -168,16 +176,10 @@ public class BluetoothSerialService {
         // Start the thread to manage the connection and perform transmissions
         mConnectedThread = new ConnectedThread(socket);
         mConnectedThread.start();
-        //mConnectedThread.run();
-
-        // Send the name of the connected device back to the UI Activity
-        //Message msg = mHandler.obtainMessage(BlueTerm.MESSAGE_DEVICE_NAME);
-        //Bundle bundle = new Bundle();
-        //bundle.putString(BlueTerm.DEVICE_NAME, device.getName());
-        //msg.setData(bundle);
-        //mHandler.sendMessage(msg);
-
         setState(STATE_CONNECTED);
+
+        alertThread = new ThreadAlerta();
+        alertThread.start();
     }
 
     /**
@@ -367,8 +369,11 @@ public class BluetoothSerialService {
                     // Read from the InputStream
                     bytes = mmInStream.read(bufferLectura);
 
+                    String readMessage = new String(bufferLectura);
+                    if(readMessage.isEmpty()){
+                        BluetoothList.contadorAlerta = 0;
+                    }                    
                     // GUARDAR DATOS EN LA BASE DE DATOS
-                    // Send the obtained bytes to the UI Activity
                     mHandler.obtainMessage(2, bytes, -1, bufferLectura).sendToTarget();
 
                     if(señal == "CF"){
@@ -393,6 +398,7 @@ public class BluetoothSerialService {
                     break;
                 }
             }
+            alertThread.cancel();
         }
 
         /**
@@ -426,6 +432,28 @@ public class BluetoothSerialService {
     
     public boolean getAllowInsecureConnections() {
     	return mAllowInsecureConnections;
+    }
+
+    private class ThreadAlerta extends Thread {
+
+        public void run() {
+            Log.i(TAG, "Begin ThreadAlerta");
+            while(mState == STATE_CONNECTED){
+                if(BluetoothList.contadorAlerta == 300){
+                    mHandler.obtainMessage(5).sendToTarget();
+                }
+                /*
+                try {
+                    Thread.sleep(60000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }*/
+            }
+        }
+
+        public void cancel() {
+            interrupt();
+        }
     }
 
 }

@@ -32,6 +32,7 @@ import com.lumbseat.lumbseat.utilities.Utilities;
 
 public class MainActivity extends Activity implements OnChartValueSelectedListener, Runnable {
 
+    public static Context contextoActual;
     public static String path;
     SQLiteDatabase db2;
 
@@ -72,6 +73,8 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        contextoActual = this;
 
         Button btnHistorico = (Button) findViewById(R.id.btnHistorico);
         btnHistorico.setOnClickListener(new View.OnClickListener() {

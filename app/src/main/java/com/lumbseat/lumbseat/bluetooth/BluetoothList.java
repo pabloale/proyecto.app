@@ -1,6 +1,7 @@
 package com.lumbseat.lumbseat.bluetooth;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.lumbseat.lumbseat.BackupActivity;
 import com.lumbseat.lumbseat.HistoricosActivity;
 import com.lumbseat.lumbseat.MainActivity;
 import com.lumbseat.lumbseat.R;
@@ -26,10 +28,14 @@ public class BluetoothList extends Activity {
     public static final int MESSAGE_READ = 2;
     public static final int MESSAGE_WRITE = 3;
 
+    public static int contadorAlerta = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth_list);
+
+        MainActivity.contextoActual = this;
 
         FloatingActionButton floatingButton = (FloatingActionButton) findViewById(R.id.btnVolver);
         floatingButton.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +61,11 @@ public class BluetoothList extends Activity {
                     Toast.makeText(BluetoothList.this, writeBuf.toString(), Toast.LENGTH_SHORT).show();
                     break;
                 case MESSAGE_READ:
+
+                    if(contadorAlerta == 301)
+                        contadorAlerta = 0;
+                    contadorAlerta = contadorAlerta + 1;
+
                     byte[] readBuf = (byte[]) msg.obj;
                     String readMessage = new String(readBuf, 0, msg.arg1);
 
@@ -85,6 +96,12 @@ public class BluetoothList extends Activity {
                     db.close();
 
                     //Toast.makeText(BluetoothList.this,"Insertado en db: " + readMessage, Toast.LENGTH_SHORT).show();
+                    break;
+                case 5:
+                    new AlertDialog.Builder(MainActivity.contextoActual)
+                            .setTitle(getResources().getString(R.string.app_name))
+                            .setMessage("¡Arriba! Llevas mucho tiempo sentado. A dar una vuelta!")
+                            .setPositiveButton("OK", null).show();
                     break;
             }
         }
