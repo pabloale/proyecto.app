@@ -24,7 +24,13 @@ import android.widget.Toast;
 import com.google.android.gms.drive.CreateFileActivityOptions;
 import com.google.android.gms.drive.Drive;
 import com.google.android.gms.drive.DriveContents;
+import com.google.android.gms.drive.Metadata;
+import com.google.android.gms.drive.MetadataBuffer;
 import com.google.android.gms.drive.MetadataChangeSet;
+import com.google.android.gms.drive.query.Filters;
+import com.google.android.gms.drive.query.Query;
+import com.google.android.gms.drive.query.SearchableField;
+import com.google.android.gms.drive.widget.DataBufferAdapter;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -125,14 +131,49 @@ public class BackupActivity extends Activity {
                             .setMessage(getResources().getString(R.string.internet_error_restore))
                             .setPositiveButton("OK", null).show();
                 }else{
-                    //getDbFromDrive();
+                    getDbFromDrive();
                 }
             }
         });
     }
 
+    private void guardarBdEnDrive() {
+        LoginActivity.mDriveResourceClient
+            .createContents()
+            .continueWithTask(
+                    new Continuation<DriveContents, Task<Void>>() {
+                        @Override
+                        public Task<Void> then(@NonNull Task<DriveContents> task) throws Exception {
+                            return createFileIntentSender(task.getResult());
+                        }
+                    })
+            .addOnFailureListener(
+                    new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Failed to create new contents.", e);
+                        }
+                    });
+    }
+
 
     private void getDbFromDrive() {
+        Query query = new Query.Builder()
+                .addFilter(Filters.eq(SearchableField.TITLE, "bd_datos"))
+                .build();
+
+        // [START drive_android_query_files]
+        Task<MetadataBuffer> queryTask = LoginActivity.mDriveResourceClient.query(query)
+                .addOnSuccessListener(this, i -> {
+                     Log.i(TAG,"Todo joya");
+                })
+                .addOnFailureListener(this, e -> {
+                    Log.e(TAG,"asd" + e);
+                    finish();
+                });
+
+    }
+
         /*file.open(mGoogleApiClient, DriveFile.MODE_READ_ONLY, null)
                 .setResultCallback(new ResultCallback<DriveApi.DriveContentsResult>() {
                     @Override
@@ -186,26 +227,6 @@ public class BackupActivity extends Activity {
                         System.exit(0);
                     }
                 });*/
-    }
-
-    private void guardarBdEnDrive() {
-        LoginActivity.mDriveResourceClient
-            .createContents()
-            .continueWithTask(
-                    new Continuation<DriveContents, Task<Void>>() {
-                        @Override
-                        public Task<Void> then(@NonNull Task<DriveContents> task) throws Exception {
-                            return createFileIntentSender(task.getResult());
-                        }
-                    })
-            .addOnFailureListener(
-                    new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Failed to create new contents.", e);
-                        }
-                    });
-    }
 
     private Task<Void> createFileIntentSender(DriveContents driveContents) {
         Log.i(TAG, "New contents created.");
