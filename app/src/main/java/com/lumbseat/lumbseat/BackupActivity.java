@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ import com.google.android.gms.drive.widget.DataBufferAdapter;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.lumbseat.lumbseat.dataBase.SQLiteConnectionHelper;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -55,6 +57,8 @@ public class BackupActivity extends Activity {
 
     private SharedPreferences myPreferences;
     private TextView tvDiaBk;
+
+    private DataBufferAdapter<Metadata> mResultsAdapter;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -89,6 +93,10 @@ public class BackupActivity extends Activity {
         setTitle("LumbSeat");
 
         MainActivity.contextoActual = this;
+
+        ListView mListView = findViewById(R.id.listViewResults);
+        mResultsAdapter = new DataBufferAdapter<Metadata>(this,2);
+        mListView.setAdapter(mResultsAdapter);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -158,15 +166,16 @@ public class BackupActivity extends Activity {
 
 
     private void getDbFromDrive() {
+        //SQLiteConnectionHelper sqlCnnhelper = new SQLiteConnectionHelper();
+        //sqlCnnhelper.onUpgrade(db,1,2);
+
         Query query = new Query.Builder()
                 .addFilter(Filters.eq(SearchableField.TITLE, "bd_datos"))
                 .build();
 
         // [START drive_android_query_files]
         Task<MetadataBuffer> queryTask = LoginActivity.mDriveResourceClient.query(query)
-                .addOnSuccessListener(this, i -> {
-                     Log.i(TAG,"Todo joya");
-                })
+                .addOnSuccessListener(this, metadataBuffer -> mResultsAdapter.append(metadataBuffer))
                 .addOnFailureListener(this, e -> {
                     Log.e(TAG,"asd" + e);
                     finish();

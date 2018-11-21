@@ -157,7 +157,7 @@ public class ConfigurationActivity extends Activity {
                         new ResultCallback<Status>() {
                             @Override
                             public void onResult(Status status) {
-                                Toast.makeText(getApplicationContext(),"Logged Out",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),"Deslogueado",Toast.LENGTH_SHORT).show();
                                 Intent i=new Intent(getApplicationContext(),LoginActivity.class);
                                 startActivity(i);
                             }
