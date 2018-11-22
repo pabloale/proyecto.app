@@ -73,7 +73,7 @@ public class BluetoothConnection extends Activity {
             try {
                 bss.start();
                 bss.connect(mDevice);
-                if(bss.getState() == bss.STATE_CONNECTED){
+                if(bss.getState() == bss.STATE_CONNECTING){
                     showToastMethod(contexto,"Conectado con dispositivo " + info);
                 }else{
                     showToastMethod(contexto,"No se pudo conectar con el dispositivo " + info);

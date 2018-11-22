@@ -148,9 +148,6 @@ public class BluetoothSerialService {
         mConnectThread = new ConnectThread(device);
         mConnectThread.start();
         setState(STATE_CONNECTING);
-
-        //alertThread = new ThreadAlerta();
-        //alertThread.start();
     }
 
     /**
@@ -178,8 +175,8 @@ public class BluetoothSerialService {
         mConnectedThread.start();
         setState(STATE_CONNECTED);
 
-        alertThread = new ThreadAlerta();
-        alertThread.start();
+        /*alertThread = new ThreadAlerta();
+        alertThread.start();*/
     }
 
     /**
@@ -373,6 +370,9 @@ public class BluetoothSerialService {
                     if(readMessage.isEmpty()){
                         BluetoothList.contadorAlerta = 0;
                     }
+                    if(BluetoothList.contadorAlerta == 12){
+                        mHandler.obtainMessage(5).sendToTarget();
+                    }
                     // GUARDAR DATOS EN LA BASE DE DATOS
                     mHandler.obtainMessage(2, bytes, -1, bufferLectura).sendToTarget();
 
@@ -435,25 +435,16 @@ public class BluetoothSerialService {
     }
 
     private class ThreadAlerta extends Thread {
-
         public void run() {
             Log.i(TAG, "Begin ThreadAlerta");
             while(mState == STATE_CONNECTED){
-                if(BluetoothList.contadorAlerta == 300){
+                if(BluetoothList.contadorAlerta == 10){
                     mHandler.obtainMessage(5).sendToTarget();
                 }
-                /*
-                try {
-                    Thread.sleep(60000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }*/
             }
         }
-
         public void cancel() {
             interrupt();
         }
     }
-
 }

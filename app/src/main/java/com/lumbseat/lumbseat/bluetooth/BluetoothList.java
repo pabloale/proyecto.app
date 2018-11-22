@@ -62,7 +62,7 @@ public class BluetoothList extends Activity {
                     break;
                 case MESSAGE_READ:
 
-                    if(contadorAlerta == 301)
+                    if(contadorAlerta == 13)
                         contadorAlerta = 0;
                     contadorAlerta = contadorAlerta + 1;
 

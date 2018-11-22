@@ -63,7 +63,7 @@ public class ConfigurationActivity extends Activity {
         }
     };
 
-    private GoogleApiClient mGoogleApiClient;
+    public static GoogleApiClient mGoogleApiClient;
     private Button btnSignOut;
     private Button btnBluetooth;
 

@@ -17,6 +17,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,6 +26,9 @@ import android.widget.Toast;
 import com.google.android.gms.drive.CreateFileActivityOptions;
 import com.google.android.gms.drive.Drive;
 import com.google.android.gms.drive.DriveContents;
+import com.google.android.gms.drive.DriveFile;
+import com.google.android.gms.drive.DriveFolder;
+import com.google.android.gms.drive.DriveId;
 import com.google.android.gms.drive.Metadata;
 import com.google.android.gms.drive.MetadataBuffer;
 import com.google.android.gms.drive.MetadataChangeSet;
@@ -35,6 +39,7 @@ import com.google.android.gms.drive.widget.DataBufferAdapter;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.lumbseat.lumbseat.dataBase.SQLiteConnectionHelper;
 
 import java.io.BufferedInputStream;
@@ -57,6 +62,8 @@ public class BackupActivity extends Activity {
 
     private SharedPreferences myPreferences;
     private TextView tvDiaBk;
+
+    private String driveID = "";
 
     private DataBufferAdapter<Metadata> mResultsAdapter;
 
@@ -95,7 +102,7 @@ public class BackupActivity extends Activity {
         MainActivity.contextoActual = this;
 
         ListView mListView = findViewById(R.id.listViewResults);
-        mResultsAdapter = new DataBufferAdapter<Metadata>(this,2);
+        mResultsAdapter = new ResultAdapter(this, 1);
         mListView.setAdapter(mResultsAdapter);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -165,13 +172,125 @@ public class BackupActivity extends Activity {
     }
 
 
+
+
+    private Task<Void> createFileIntentSender(DriveContents driveContents) {
+        Log.i(TAG, "New contents created.");
+        // Get an output stream for the contents.
+        OutputStream outputStream = driveContents.getOutputStream();
+
+        BufferedOutputStream bos = new BufferedOutputStream(outputStream);
+        byte[] buffer = new byte[1024];
+        int n;
+
+        try {
+            FileInputStream is = new FileInputStream(DATA_DIRECTORY_DATABASE);
+            BufferedInputStream bis = new BufferedInputStream(is);
+
+            while ((n = bis.read(buffer)) > 0) {
+                bos.write(buffer, 0, n);
+            }
+            bos.close();
+            Log.i(TAG, "Se cargo el buffer de salida");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Log.w(TAG, "Unable to write file contents.", e);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.w(TAG, "Unable to write file contents.", e);
+        }
+
+        // Create the initial metadata - MIME type and title.
+        // Note that the user will be able to change the title later.
+        //String mimeType = MimeTypeMap.getSingleton().getExtensionFromMimeType(MIME_TYPE);
+        MetadataChangeSet metadataChangeSet =
+                new MetadataChangeSet.Builder()
+                        .setMimeType(MIME_TYPE)
+                        .setTitle("bd_datos")
+                        .build();
+
+        // Set up options to configure and display the create file activity.
+        CreateFileActivityOptions createFileActivityOptions =
+                new CreateFileActivityOptions.Builder()
+                        .setInitialMetadata(metadataChangeSet)
+                        .setInitialDriveContents(driveContents)
+                        .build();
+
+        return LoginActivity.mDriveClient
+                .newCreateFileActivityIntentSender(createFileActivityOptions)
+                .continueWith(
+                        new Continuation<IntentSender, Void>() {
+                            @Override
+                            public Void then(@NonNull Task<IntentSender> task) throws Exception {
+                                startIntentSenderForResult(task.getResult(), REQUEST_DB_UPLOADER, null, 0, 0, 0);
+                                driveID = createFileActivityOptions.EXTRA_RESPONSE_DRIVE_ID;
+                                return null;
+                            }
+                        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (LoginActivity.mDriveResourceClient == null || LoginActivity.mDriveClient == null) {
+            // Use the last signed in account here since it already have a Drive scope.
+            LoginActivity.mDriveClient = Drive.getDriveClient(this, LoginActivity.account);
+            // Build a drive resource client.
+            LoginActivity.mDriveResourceClient = Drive.getDriveResourceClient(this, LoginActivity.account);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_DB_UPLOADER:
+                Log.i(TAG, "Upload file request");
+                // Called after a file is saved to Drive.
+                if (resultCode == RESULT_OK) {
+
+                    Date cDate = new Date();
+                    String fechaHoy = new SimpleDateFormat("dd/MM/yyyy").format(cDate);
+
+                    SharedPreferences.Editor myEditor = myPreferences.edit();
+                    myEditor.putString("FECHAULTIMOBACKUP",fechaHoy);
+                    myEditor.commit();
+                    tvDiaBk.setText(fechaHoy);
+
+                    Log.i(TAG, "DB file successfully saved.");
+                    Toast.makeText(BackupActivity.this,"Sus datos han sido resguardados",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BackupActivity.this, "DRIVE ID: "+ driveID, Toast.LENGTH_SHORT).show();
+                }else if(resultCode == RESULT_CANCELED){
+                    Toast.makeText(BackupActivity.this,"Ha cancelado el Backup de sus datos",Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
+
     private void getDbFromDrive() {
         //SQLiteConnectionHelper sqlCnnhelper = new SQLiteConnectionHelper();
-        //sqlCnnhelper.onUpgrade(db,1,2);
+
 
         Query query = new Query.Builder()
                 .addFilter(Filters.eq(SearchableField.TITLE, "bd_datos"))
                 .build();
+
+/*
+        MetadataBuffer buffer = null;
+        try {
+            buffer = Drive.DriveApi.getAppFolder(ConfigurationActivity.mGoogleApiClient)
+                    .queryChildren(ConfigurationActivity.mGoogleApiClient, query).await().getMetadataBuffer();
+
+            if (buffer != null && buffer.getCount() > 0) {
+                buffer.get(0).getDriveId();
+                //sqlCnnhelper.onUpgrade(,1,2);
+            }
+
+        } finally {
+            if (buffer != null) {
+                buffer.close();
+            }
+        }*/
 
         // [START drive_android_query_files]
         Task<MetadataBuffer> queryTask = LoginActivity.mDriveResourceClient.query(query)
@@ -180,10 +299,31 @@ public class BackupActivity extends Activity {
                     Log.e(TAG,"asd" + e);
                     finish();
                 });
-
     }
 
-        /*file.open(mGoogleApiClient, DriveFile.MODE_READ_ONLY, null)
+    public class ResultAdapter extends DataBufferAdapter<Metadata> {
+        public ResultAdapter(Context context, int i) {
+            super(context, i);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent){
+            if(convertView == null){
+                convertView = View.inflate(getContext(),
+                        android.R.layout.simple_list_item_1, null);
+            }
+            Metadata metadata = getItem(position);
+            TextView titleTextView = (TextView) convertView.findViewById(android.R.id.text1);
+            titleTextView.setText(metadata.getTitle());
+            return convertView;
+        }
+    }
+
+}
+
+
+
+/*file.open(mGoogleApiClient, DriveFile.MODE_READ_ONLY, null)
                 .setResultCallback(new ResultCallback<DriveApi.DriveContentsResult>() {
                     @Override
                     public void onResult(DriveApi.DriveContentsResult result) {
@@ -236,95 +376,3 @@ public class BackupActivity extends Activity {
                         System.exit(0);
                     }
                 });*/
-
-    private Task<Void> createFileIntentSender(DriveContents driveContents) {
-        Log.i(TAG, "New contents created.");
-        // Get an output stream for the contents.
-        OutputStream outputStream = driveContents.getOutputStream();
-
-        BufferedOutputStream bos = new BufferedOutputStream(outputStream);
-        byte[] buffer = new byte[1024];
-        int n;
-
-        try {
-            FileInputStream is = new FileInputStream(DATA_DIRECTORY_DATABASE);
-            BufferedInputStream bis = new BufferedInputStream(is);
-
-            while ((n = bis.read(buffer)) > 0) {
-                bos.write(buffer, 0, n);
-                //DialogFragment_Sync.setProgressText("Backing up...");
-            }
-            bos.close();
-            Log.i(TAG, "Se cargo el buffer de salida");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            Log.w(TAG, "Unable to write file contents.", e);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.w(TAG, "Unable to write file contents.", e);
-        }
-
-        // Create the initial metadata - MIME type and title.
-        // Note that the user will be able to change the title later.
-        //String mimeType = MimeTypeMap.getSingleton().getExtensionFromMimeType(MIME_TYPE);
-        MetadataChangeSet metadataChangeSet =
-                new MetadataChangeSet.Builder()
-                        .setMimeType(MIME_TYPE)
-                        .setTitle("bd_datos")
-                        .build();
-        // Set up options to configure and display the create file activity.
-        CreateFileActivityOptions createFileActivityOptions =
-                new CreateFileActivityOptions.Builder()
-                        .setInitialMetadata(metadataChangeSet)
-                        .setInitialDriveContents(driveContents)
-                        .build();
-
-        return LoginActivity.mDriveClient
-                .newCreateFileActivityIntentSender(createFileActivityOptions)
-                .continueWith(
-                        new Continuation<IntentSender, Void>() {
-                            @Override
-                            public Void then(@NonNull Task<IntentSender> task) throws Exception {
-                                startIntentSenderForResult(task.getResult(), REQUEST_DB_UPLOADER, null, 0, 0, 0);
-                                return null;
-                            }
-                        });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (LoginActivity.mDriveResourceClient == null || LoginActivity.mDriveClient == null) {
-            // Use the last signed in account here since it already have a Drive scope.
-            LoginActivity.mDriveClient = Drive.getDriveClient(this, LoginActivity.account);
-            // Build a drive resource client.
-            LoginActivity.mDriveResourceClient = Drive.getDriveResourceClient(this, LoginActivity.account);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_DB_UPLOADER:
-                Log.i(TAG, "Upload file request");
-                // Called after a file is saved to Drive.
-                if (resultCode == RESULT_OK) {
-
-                    Date cDate = new Date();
-                    String fechaHoy = new SimpleDateFormat("dd/MM/yyyy").format(cDate);
-
-                    SharedPreferences.Editor myEditor = myPreferences.edit();
-                    myEditor.putString("FECHAULTIMOBACKUP",fechaHoy);
-                    myEditor.commit();
-                    tvDiaBk.setText(fechaHoy);
-
-                    Log.i(TAG, "DB file successfully saved.");
-                    Toast.makeText(BackupActivity.this,"Sus datos han sido resguardados",Toast.LENGTH_SHORT).show();
-                }else if(resultCode == RESULT_CANCELED){
-                    Toast.makeText(BackupActivity.this,"Ha cancelado el Backup de sus datos",Toast.LENGTH_SHORT).show();
-                }
-                break;
-        }
-    }
-}
