@@ -172,7 +172,7 @@ public class GraphicHelper {
         ArrayList<String> xVals = PieChartGdh.GetLabelsData(db);
 
         PieDataSet dataSet = new PieDataSet(yvalues, "");
-        final int[] ROJOS = {Color.rgb(87, 193, 75), Color.rgb(93, 170, 65), Color.rgb(113, 130, 84)};
+        final int[] ROJOS = {Color.rgb(180, 87, 87), Color.rgb(210, 87, 87), Color.rgb(240, 87, 87)};
         dataSet.setColors(ROJOS);
 
         PieData data = new PieData(xVals, dataSet);

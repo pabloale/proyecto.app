@@ -115,6 +115,7 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
                 SQLiteConnectionHelper conn = new SQLiteConnectionHelper(context, Utilities.BASE_DATOS, null, 1);
                 db2 = conn.getReadableDatabase();
                 GraphicHelper.configuratePieChart(pieChart,main, db2);
+                GraphicHelper.configurateBadPosturePieChart(badPosturePieChart,main, db2);
                 db2.close();
                 handler.postDelayed(this, 200);
             }
@@ -147,6 +148,7 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
         SQLiteConnectionHelper conn = new SQLiteConnectionHelper(this, Utilities.BASE_DATOS, null, 1);
         db2 = conn.getReadableDatabase();
         GraphicHelper.configuratePieChart(pieChart,this, db2);
+        GraphicHelper.configurateBadPosturePieChart(badPosturePieChart,main, db2);
         db2.close();
     }
 
@@ -161,6 +163,7 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
                 SQLiteConnectionHelper conn = new SQLiteConnectionHelper(context, Utilities.BASE_DATOS, null, 1);
                 db2 = conn.getReadableDatabase();
                 GraphicHelper.configuratePieChart(pieChart,main, db2);
+                GraphicHelper.configurateBadPosturePieChart(badPosturePieChart,main, db2);
                 db2.close();
             }
         }).start();

@@ -21,9 +21,8 @@ public class PieChartBadPostureDataHelper {
 
     public PieChartBadPostureDataHelper(SQLiteDatabase db)
     {
-        String piechart_query = "SELECT (SUM(sentadoIzq) + SUM(sentadoDer))/30 [SENTADO COSTADO], (SUM(sentadoLejosAbajo))/30 [LEJOS DEBAJO], (SUM(sentadoLejosArriba))/30 [LEJOS ARRIBA]" +
-                " FROM datos" +
-                " WHERE SUBSTR(timeStamp,1,10) = '"+ sdf.format(todayDate) +"'";
+        String piechart_query = "SELECT (SUM(sentadoIzq) + SUM(sentadoDer))/30.0 [SENTADO COSTADO], (SUM(sentadoLejosAbajo))/30.0 [LEJOS DEBAJO], (SUM(sentadoLejosArriba))/30.0 [LEJOS ARRIBA]" +
+                " FROM datos";
 
         Cursor cursor = db.rawQuery(piechart_query, null);
 

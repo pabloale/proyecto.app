@@ -65,7 +65,7 @@ public class ExercisesActivity extends Activity {
 
         SQLiteConnectionHelper conn = new SQLiteConnectionHelper(this, Utilities.BASE_DATOS, null, 1);
         SQLiteDatabase db2 = conn.getReadableDatabase();
-        String excersises_query = "SELECT (SUM(sentadoIzq) + SUM(sentadoDer))/30 [SENTADO COSTADO], (SUM(sentadoLejosAbajo))/30 [LEJOS DEBAJO], (SUM(sentadoLejosArriba))/30 [LEJOS ARRIBA] " +
+        String excersises_query = "SELECT (SUM(sentadoIzq) + SUM(sentadoDer))/30.0 [SENTADO COSTADO], (SUM(sentadoLejosAbajo))/30.0 [LEJOS DEBAJO], (SUM(sentadoLejosArriba))/30.0 [LEJOS ARRIBA] " +
                                   "FROM datos ";
 
         float sentadoCostado = 0;
