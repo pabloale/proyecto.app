@@ -53,8 +53,6 @@ public class BluetoothSerialService {
     private static final boolean D = true;
     public static String señal = "OK";
     public static String dataConfiguration = "";
-    private ThreadAlerta alertThread;
-
 
 	private static final UUID SerialPortServiceClass_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
@@ -366,24 +364,24 @@ public class BluetoothSerialService {
                     // Read from the InputStream
                     bytes = mmInStream.read(bufferLectura);
 
-                    String readMessage = new String(bufferLectura);
-                    if(readMessage.isEmpty()){
+                    String readMessage = new String(bufferLectura, 0, bytes);
+                    if(readMessage.equals("V")){
                         BluetoothList.contadorAlerta = 0;
+                    }else{
+                        // GUARDAR DATOS EN LA BASE DE DATOS
+                        mHandler.obtainMessage(2, bytes, -1, bufferLectura).sendToTarget();
+                        if(BluetoothList.contadorAlerta == 60)
+                            mHandler.obtainMessage(5).sendToTarget();
                     }
-                    if(BluetoothList.contadorAlerta == 12){
-                        mHandler.obtainMessage(5).sendToTarget();
-                    }
-                    // GUARDAR DATOS EN LA BASE DE DATOS
-                    mHandler.obtainMessage(2, bytes, -1, bufferLectura).sendToTarget();
 
                     if(señal == "CF"){
                         boolLed = myPreferences.getBoolean("LEDS", true);
                         boolVibrador = myPreferences.getBoolean("VIBRADOR", true);
                         peso = myPreferences.getInt("PESO", 0);
-
+                        String pesoFormateado =  String.format("%03d", peso);
                         write(señal.getBytes());
 
-                        dataConfiguration = "" + boolLed + ";" + boolVibrador + ";" + peso + "";
+                        dataConfiguration = "" + ((boolLed)?1:0) + ";" + ((boolVibrador)?1:0) + ";" + pesoFormateado + "";
                         bufferEscritura = dataConfiguration.getBytes();
                         write(bufferEscritura);
 
@@ -398,7 +396,6 @@ public class BluetoothSerialService {
                     break;
                 }
             }
-            alertThread.cancel();
         }
 
         /**
@@ -432,19 +429,5 @@ public class BluetoothSerialService {
     
     public boolean getAllowInsecureConnections() {
     	return mAllowInsecureConnections;
-    }
-
-    private class ThreadAlerta extends Thread {
-        public void run() {
-            Log.i(TAG, "Begin ThreadAlerta");
-            while(mState == STATE_CONNECTED){
-                if(BluetoothList.contadorAlerta == 10){
-                    mHandler.obtainMessage(5).sendToTarget();
-                }
-            }
-        }
-        public void cancel() {
-            interrupt();
-        }
     }
 }

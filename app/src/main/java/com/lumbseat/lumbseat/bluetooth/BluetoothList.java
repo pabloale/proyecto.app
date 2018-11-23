@@ -62,8 +62,9 @@ public class BluetoothList extends Activity {
                     break;
                 case MESSAGE_READ:
 
-                    if(contadorAlerta == 13)
+                    if(contadorAlerta == 61)
                         contadorAlerta = 0;
+
                     contadorAlerta = contadorAlerta + 1;
 
                     byte[] readBuf = (byte[]) msg.obj;

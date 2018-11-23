@@ -117,7 +117,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (account != null) {
             String personName = account.getDisplayName();
 
-            Toast.makeText(getApplicationContext(),"Usuario " + personName + " logueado",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Bienvenido " + personName,Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(LoginActivity.this, ConfigPesoActivity.class);
             intent.putExtra("ACCOUNT_OBJECT", account);

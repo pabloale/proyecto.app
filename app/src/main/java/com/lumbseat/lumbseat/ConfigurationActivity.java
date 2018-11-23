@@ -138,6 +138,8 @@ public class ConfigurationActivity extends Activity {
                 String valorPeso = s.toString();
                 if(!valorPeso.isEmpty()){
                     peso = Integer.parseInt(valorPeso);
+                }else{
+                    peso = 0;
                 }
                 SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(ConfigurationActivity.this);
                 SharedPreferences.Editor myEditor = myPreferences.edit();

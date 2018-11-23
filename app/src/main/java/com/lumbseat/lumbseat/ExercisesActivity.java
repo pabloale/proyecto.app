@@ -122,7 +122,7 @@ public class ExercisesActivity extends Activity {
             setProperties(imView2, srcSentado, etv2, textSentado, linkSentado);
             setProperties(imView3, srcAvanzado, etv3, textAvanzado, linkOficina);
             setProperties(imView4, srcStretching, etv4, textStretching, linkStretching);
-        }else if(sentadoLejosArriba > sentadoLejosDebajo && sentadoLejosArriba > sentadoLejosDebajo){
+        }else if(sentadoLejosArriba > sentadoLejosDebajo && sentadoLejosArriba > sentadoCostado){
             setProperties(imView1, srcStretching, etv1, textStretching, linkAvanzado);
             setProperties(imView2, srcSentado, etv2, textSentado, linkSentado);
             setProperties(imView3, srcOficina, etv3, textOficina, linkOficina);
