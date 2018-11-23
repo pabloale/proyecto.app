@@ -117,13 +117,6 @@
             android:layout_marginBottom="202dp"
             android:src="@drawable/restore" />
 
-        <ListView
-            android:id="@+id/listViewResults"
-            android:layout_width="match_parent"
-            android:layout_height="74dp"
-            android:layout_above="@+id/tvLabel"
-            android:layout_alignEnd="@+id/btnBackup" />
-
     </RelativeLayout>
 
     <android.support.design.widget.BottomNavigationView
