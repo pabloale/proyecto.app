@@ -76,7 +76,7 @@
             android:layout_marginBottom="122dp"
             android:background="#FC9899"
             android:backgroundTint="#FD999A"
-            android:text="Sign Out" />
+            android:text="Cerrar Sesión" />
 
         <TextView
             android:id="@+id/textView4"
