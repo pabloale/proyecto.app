@@ -76,6 +76,10 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
 
         contextoActual = this;
 
+        SQLiteConnectionHelper conn = new SQLiteConnectionHelper(this, Utilities.BASE_DATOS, null, 1);
+        db2 = conn.getReadableDatabase();
+        //conn.onUpgrade(db2, 0, 0);
+
         Button btnHistorico = (Button) findViewById(R.id.btnHistorico);
         btnHistorico.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,9 +93,6 @@ public class MainActivity extends Activity implements OnChartValueSelectedListen
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setItemTextColor(ColorStateList.valueOf(Color.WHITE));
 
-        SQLiteConnectionHelper conn = new SQLiteConnectionHelper(this, Utilities.BASE_DATOS, null, 1);
-
-        db2 = conn.getReadableDatabase();
         /*path = db2.getPath().toString();
         Toast.makeText(getApplicationContext(),"El path de la base es: "+ path,Toast.LENGTH_LONG).show();*/
 

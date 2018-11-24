@@ -7,12 +7,10 @@ import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -146,7 +144,7 @@ public class ExercisesActivity extends Activity {
     private void setProperties(ImageView imageView, String image, TextView textView, String text, final String linkVideo){
         switch(image){
             case "Stretching":
-                imageView.setImageResource(R.drawable.streching);
+                imageView.setImageResource(R.drawable.image_video_1);
                 break;
             case "Sentado":
                 imageView.setImageResource(R.drawable.image_video_2);
